@@ -5,169 +5,172 @@ CREATE TABLE collision_insight.location_data (
 	country TEXT,
 	countyfips NUMERIC(5),
 	state VARCHAR(2),
-	state_id TEXT,
 	state_fips NUMERIC(2),
-	latitude NUMERIC,
-	longitude NUMERIC,
-	PRIMARY KEY(zipcode, latitude, longitude)
+	latitude INTEGER,
+	longitude INTEGER,
+	PRIMARY KEY(zipcode)
 );
 
--- CREATE TABLE collision_insight.geometric_data (
--- 	latitude NUMERIC,
--- 	longitude NUMERIC,
--- 	PRIMARY KEY(latitude, longitude) 
--- );
-
-CREATE TABLE collision_insight.hospital_extra (
-	alt_name TEXT, 
-	beds INT CHECK (beds >= 0), 
-	helipad TEXT, 
-	id NUMERIC(10), 
-	name TEXT, 
-	owner TEXT, 
-	population INT, 
-	ttl_staff INT, 
-	type TEXT,
-	PRIMARY KEY (id),
-	zipcode NUMERIC(5),
+CREATE TABLE collision_insight.geometric_data (
 	latitude NUMERIC,
 	longitude NUMERIC,
-	FOREIGN KEY(zipcode,latitude, longitude) REFERENCES location_data (zipcode,latitude, longitude),
-	-- FOREIGN KEY(latitude, longitude) REFERENCES geometric_data (latitude, longitude)
+	zipcode NUMERIC(5),
+	PRIMARY KEY(latitude, longitude), 
+	FOREIGN KEY(zipcode) REFERENCES location_data (zipcode)
 );
 
 CREATE TABLE collision_insight.hospital_details (
-	address TEXT, 
-	id NUMERIC(10), 
-	name TEXT, 
-	owner TEXT, 
-	status TEXT NOT NULL, 
-	telephone TEXT, 
-	type TEXT,
-	val_date TIMESTAMP, 
-	val_method TEXT, 
-	website TEXT, 
-	PRIMARY KEY (id),
-	zipcode NUMERIC(5),
-	latitude NUMERIC,
-	longitude NUMERIC,
-	FOREIGN KEY(zipcode,latitude, longitude) REFERENCES location_data (zipcode,latitude, longitude),
-	-- FOREIGN KEY(latitude, longitude) REFERENCES geometric_data (latitude, longitude)
-);
 
-CREATE TABLE collision_insight.hospital_source (
-	naics_code TEXT, 
-	naics_desc TEXT, 
+	address VARCHAR(255),  
+	name VARCHAR(255), 
+	owner TEXT,
+	telephone NUMERIC(10), 
+	population INT, 
 	source TEXT, 
 	sourcedate TIMESTAMP, 
-	status TEXT, 
+	website TEXT, 
+	alt_name TEXT, 
+	beds INT CHECK (beds >= 0), 
+	helipad BOOLEAN, 
 	website TEXT, 
 	id NUMERIC(10), 
 	PRIMARY KEY (id),
 	zipcode NUMERIC(5),
-	latitude NUMERIC,
-	longitude NUMERIC,
-	FOREIGN KEY(zipcode,latitude, longitude) REFERENCES location_data (zipcode,latitude, longitude),
-	-- FOREIGN KEY(latitude, longitude) REFERENCES geometric_data (latitude, longitude)
+
+	FOREIGN KEY(zipcode) REFERENCES location_data (zipcode),
 );
 
-CREATE TABLE collision_insight.liquor_shop_license (
-	serial_number BIGSERIAL PRIMARY KEY, 
-	license_type_code INT, 
-	license_class_code INT,
-	certificate_number INTEGER, 
-	license_issued_date DATE, 
-	license_expiration_date DATE, 
-	method_of_operation TEXT, 
-	zipcode NUMERIC(5),
-	latitude NUMERIC,
-	longitude NUMERIC,
-	FOREIGN KEY(zipcode, latitude, longitude) REFERENCES location_data (zipcode, latitude, longitude),
-	-- FOREIGN KEY(latitude, longitude) REFERENCES geometric_data (latitude, longitude)
+CREATE TABLE collision_insight.hospital_type (
+	id NUMERIC(10) PRIMARY KEY, 
+	type VARCHAR(20),
+	FOREIGN KEY(id) REFERENCES hospital_details (id),
+);
+
+CREATE TABLE collision_insight.hospital_type (
+	id NUMERIC(10) PRIMARY KEY, 
+	status BOOLEAN,
+	FOREIGN KEY(id) REFERENCES hospital_details (id),
+);
+
+CREATE TABLE collision_insight.hospital_naics (
+	id NUMERIC(10) PRIMARY KEY, 
+	naics_code NUMERIC(6),
+	naics_desc TEXT,
+	FOREIGN KEY(id) REFERENCES hospital_details (id),
+);
+
+CREATE TABLE collision_insight.hospital_val (
+	id NUMERIC(10) PRIMARY KEY, 
+	val_date TIMESTAMP, 
+	val_method TEXT, 
+	FOREIGN KEY(id) REFERENCES hospital_details (id),
+);
+
+CREATE TABLE collision_insight.hospital_owner (
+	id NUMERIC(10) PRIMARY KEY, 
+	owner 
+	FOREIGN KEY(id) REFERENCES hospital_details (id),
 );
 
 CREATE TABLE collision_insight.liquor_shop_info (
-	serial_number BIGSERIAL PRIMARY KEY,  
-	premise_name TEXT, 
+	
+	license_type_code VARCHAR(2), 
+	license_class_code NUMERIC(3),
+	certificate_number INTEGER, 
+	license_issued_date DATE, 
+	license_expiration_date DATE, 
+	method_of_operation VARCHAR(255), 
+	premise_name VARCHAR(255), 
 	premise_address TEXT, 
 	premise_address2 TEXT, 
-	dba TEXT,
-	days_hours_of_operation TEXT, 
+	dba VARCHAR(255),
+	others TEXT,
+	serial_number BIGSERIAL PRIMARY KEY, 
 	zipcode NUMERIC(5),
-	latitude NUMERIC,
-	longitude NUMERIC,
-	FOREIGN KEY(zipcode, latitude, longitude) REFERENCES location_data (zipcode, latitude, longitude),
-	-- FOREIGN KEY(latitude, longitude) REFERENCES geometric_data (latitude, longitude)
+	FOREIGN KEY(zipcode) REFERENCES location_data (zipcode)
 );
 
-CREATE TABLE collision_insight.vehicle_repair_license (
-	facility_id INTEGER PRIMARY KEY,
-	business_type TEXT,	
-	original_issuance DATE, 	
-	last_renewal DATE, 	
-	expiration DATE, 	
-	zipcode NUMERIC(5),
-	latitude NUMERIC,
-	longitude NUMERIC,
-	FOREIGN KEY(zipcode, latitude, longitude) REFERENCES location_data (zipcode, latitude, longitude),
-	-- FOREIGN KEY(latitude, longitude) REFERENCES geometric_data (latitude, longitude)
+CREATE TABLE collision_insight.liquor_shop_extras (
+	days_hours_of_operation TEXT, 
+	serial_number BIGSERIAL PRIMARY KEY, 
+	FOREIGN KEY(serial_number) REFERENCES liquor_shop_info (serial_number)
 );
 
 CREATE TABLE collision_insight.vehicle_repair_info (
-	facility_id INTEGER PRIMARY KEY,
-	facility_name TEXT, 	
-	facility_name_overflow TEXT, 	
-	facility_street TEXT,  	
-	owner_name TEXT,	
-	owner_name_overflow TEXT,	 	
+	facility_id NUMERIC(7) PRIMARY KEY, 
+	facility_name VARCHAR(255), 
+	facility_name_overflow TEXT, 
+	facility_street TEXT, 
+	owner_name VARCHAR(255),	
+	owner_name_overflow TEXT,	
+	original_issuance DATE, 	
+	last_renewal DATE, 	
+	expiration DATE, 		
 	zipcode NUMERIC(5),
-	latitude NUMERIC,
-	longitude NUMERIC,
-	FOREIGN KEY(zipcode, latitude, longitude) REFERENCES location_data (zipcode, latitude, longitude),
-	-- FOREIGN KEY(latitude, longitude) REFERENCES geometric_data (latitude, longitude)
+	FOREIGN KEY(zipcode) REFERENCES location_data (zipcode)
 );
 
-CREATE TABLE collision_insight.vehicle_repair_owner (
-	facility_id INTEGER PRIMARY KEY, 	
-	owner_name TEXT,	
-	owner_name_overflow TEXT,	 	
-	zipcode NUMERIC(5),
-	latitude NUMERIC,
-	longitude NUMERIC,
-	FOREIGN KEY(zipcode, latitude, longitude) REFERENCES location_data (zipcode, latitude, longitude),
-	-- FOREIGN KEY(latitude, longitude) REFERENCES geometric_data (latitude, longitude)
+CREATE TABLE collision_insight.vehicle_repair_business_type (
+	business_type BOOLEAN,
+	facility_id NUMERIC(7) PRIMARY KEY, 
+	FOREIGN KEY(facility_id) REFERENCES vehicle_repair_info (facility_id)
 );
 
-CREATE TABLE collision_insight.vehicle_crashes_event (
+CREATE TABLE collision_insight.vehicle_crashes (
 	serial_no BIGSERIAL PRIMARY KEY,
 	year YEAR, 	
 	time TIME, 	
 	date DATE,	
-	event_descriptor TEXT, 
 	police_report BOOLEAN,
-	zipcode NUMERIC(5),
-	latitude NUMERIC,
-	longitude NUMERIC,
-	FOREIGN KEY(zipcode, latitude, longitude) REFERENCES location_data (zipcode, latitude, longitude),
-	-- FOREIGN KEY(latitude, longitude) REFERENCES geometric_data (latitude, longitude)
-);
-
-CREATE TABLE collision_insight.vehicle_crashes_desciption (
-	serial_no BIGSERIAL PRIMARY KEY,
-	day_of_week TEXT, 	
-	lighting_conditions TEXT,	
 	municipality TEXT,
-	collision_type_descriptor TEXT, 		
-	road_descriptor TEXT,	
-	weather_conditions TEXT, 	
-	traffic_control_device TEXT,	
-	road_surface_conditions TEXT,	
-	dot_reference_marker_location VARCHAR(20), 	
-	pedestrian_bicyclist_action TEXT,		
+	traffic_control_device TEXT, 
+	dot_reference_marker_location VARCHAR(20), 			
 	number_of_vehicles_involved INTEGER,
 	zipcode NUMERIC(5),
-	latitude NUMERIC,
-	longitude NUMERIC,
-	FOREIGN KEY(zipcode, latitude, longitude) REFERENCES location_data (zipcode, latitude, longitude),
-	-- FOREIGN KEY(latitude, longitude) REFERENCES geometric_data (latitude, longitude)
+	FOREIGN KEY(zipcode) REFERENCES location_data (zipcode)
 );
+
+CREATE TABLE collision_insight.vehicle_crashes_descriptor (
+	serial_no BIGSERIAL PRIMARY KEY,
+	crash_descriptor VARCHAR(63), 
+	FOREIGN KEY(serial_no) REFERENCES vehicle_crashes(serial_no)
+);
+
+CREATE TABLE collision_insight.vehicle_crashes_day (
+	serial_no BIGSERIAL PRIMARY KEY,
+	day_of_week VARCHAR(9),
+	FOREIGN KEY(serial_no) REFERENCES vehicle_crashes(serial_no)
+);
+		
+CREATE TABLE collision_insight.vehicle_crashes_lighting (
+	serial_no BIGSERIAL PRIMARY KEY,
+	lighting_conditions VARCHAR(20),
+	FOREIGN KEY(serial_no) REFERENCES vehicle_crashes(serial_no)
+);
+
+CREATE TABLE collision_insight.vehicle_crashes_collision_desc (
+	serial_no BIGSERIAL PRIMARY KEY,
+	collision_type_descriptor VARCHAR(15), 		
+	FOREIGN KEY(serial_no) REFERENCES vehicle_crashes(serial_no)
+);
+
+CREATE TABLE collision_insight.vehicle_crashes_collision_weather (
+	serial_no BIGSERIAL PRIMARY KEY,
+	weather_conditions VARCHAR(30), 
+	FOREIGN KEY(serial_no) REFERENCES vehicle_crashes(serial_no)
+);
+	
+CREATE TABLE collision_insight.vehicle_crashes_collision_road_info (
+	serial_no BIGSERIAL PRIMARY KEY,
+	road_descriptor VARCHAR(30),
+	road_surface_conditions VARCHAR(15),		
+	FOREIGN KEY(serial_no) REFERENCES vehicle_crashes(serial_no)
+);
+
+CREATE TABLE collision_insight.vehicle_crashes_bicyclist (
+	serial_no BIGSERIAL PRIMARY KEY,
+	pedestrian_bicyclist_action VARCHAR(50),	
+	FOREIGN KEY(serial_no) REFERENCES vehicle_crashes(serial_no)
+);
+
+
