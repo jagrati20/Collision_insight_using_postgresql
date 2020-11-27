@@ -50,39 +50,39 @@ CREATE TABLE collision_insight.hospital_details (
 	PRIMARY KEY (id),
 	zipcode NUMERIC(5),
 
-	FOREIGN KEY(zipcode) REFERENCES location_data (zipcode),
+	FOREIGN KEY(zipcode) REFERENCES collision_insight.location_data (zipcode)
 );
 
 CREATE TABLE collision_insight.hospital_type (
 	id NUMERIC(10) PRIMARY KEY, 
 	type VARCHAR(20),
-	FOREIGN KEY(id) REFERENCES hospital_details (id),
+	FOREIGN KEY(id) REFERENCES collision_insight.hospital_details (id),
 );
 
 CREATE TABLE collision_insight.hospital_status (
 	id NUMERIC(10) PRIMARY KEY, 
 	status BOOLEAN,
-	FOREIGN KEY(id) REFERENCES hospital_details (id),
+	FOREIGN KEY(id) REFERENCES collision_insight.hospital_details (id)
 );
 
 CREATE TABLE collision_insight.hospital_naics (
 	id NUMERIC(10) PRIMARY KEY, 
 	naics_code NUMERIC(6),
 	naics_desc TEXT,
-	FOREIGN KEY(id) REFERENCES hospital_details (id),
+	FOREIGN KEY(id) REFERENCES collision_insight.hospital_details (id)
 );
 
 CREATE TABLE collision_insight.hospital_val (
 	id NUMERIC(10) PRIMARY KEY, 
 	val_date TIMESTAMP, 
 	val_method TEXT, 
-	FOREIGN KEY(id) REFERENCES hospital_details (id),
+	FOREIGN KEY(id) REFERENCES collision_insight.hospital_details (id)
 );
 
 CREATE TABLE collision_insight.hospital_owner (
 	id NUMERIC(10) PRIMARY KEY, 
 	owner 
-	FOREIGN KEY(id) REFERENCES hospital_details (id),
+	FOREIGN KEY(id) REFERENCES collision_insight.hospital_details (id)
 );
 
 
@@ -105,13 +105,13 @@ CREATE TABLE collision_insight.liquor_shop_info (
 	others TEXT,
 	serial_number BIGSERIAL PRIMARY KEY, 
 	zipcode NUMERIC(5),
-	FOREIGN KEY(zipcode) REFERENCES location_data (zipcode)
+	FOREIGN KEY(zipcode) REFERENCES collision_insight.location_data (zipcode)
 );
 
 CREATE TABLE collision_insight.liquor_shop_extras (
 	days_hours_of_operation TEXT, 
 	serial_number BIGSERIAL PRIMARY KEY, 
-	FOREIGN KEY(serial_number) REFERENCES liquor_shop_info (serial_number)
+	FOREIGN KEY(serial_number) REFERENCES collision_insight.liquor_shop_info (serial_number)
 );
 
 
@@ -130,14 +130,14 @@ CREATE TABLE collision_insight.vehicle_repair_info (
 	last_renewal DATE, 	
 	expiration DATE, 	 	
 	zipcode NUMERIC(5),
-	FOREIGN KEY(zipcode) REFERENCES location_data (zipcode)
+	FOREIGN KEY(zipcode) REFERENCES collision_insight.location_data (zipcode)
 );
 
 CREATE TABLE collision_insight.vehicle_repair_business_type (
 	business_type BOOLEAN,	
 	-- RS and RSB types
 	facility_id NUMERIC(7) PRIMARY KEY, 
-	FOREIGN KEY(facility_id) REFERENCES vehicle_repair_info (facility_id)
+	FOREIGN KEY(facility_id) REFERENCES collision_insight.vehicle_repair_info (facility_id)
 );
 
 
@@ -159,9 +159,9 @@ CREATE TABLE collision_insight.vehicle_collision (
 	cyclist_killed INTEGER,
 	motorist_injured INTEGER,
 	motorist_killed INTEGER,
-	collision_id NUMERIC(7) PRIMARY KEY;	
+	collision_id NUMERIC(7) PRIMARY KEY,	
 	zipcode NUMERIC(5),
-	FOREIGN KEY(zipcode) REFERENCES location_data (zipcode)
+	FOREIGN KEY(zipcode) REFERENCES collision_insight.location_data (zipcode)
 );
 
 CREATE TABLE collision_insight.contributing_factor_vehicle (
@@ -170,8 +170,8 @@ CREATE TABLE collision_insight.contributing_factor_vehicle (
 	contributing_factor_vehicle_3 VARCHAR(20),
 	contributing_factor_vehicle_4 VARCHAR(20),
 	contributing_factor_vehicle_5 VARCHAR(20),
-	collision_id NUMERIC(7) PRIMARY KEY;
-	FOREIGN KEY(collision_id) REFERENCES vehicle_collision (collision_id)
+	collision_id NUMERIC(7) PRIMARY KEY,
+	FOREIGN KEY(collision_id) REFERENCES collision_insight.vehicle_collision (collision_id)
 );
 
 CREATE TABLE collision_insight.vehicle_type (
@@ -180,8 +180,8 @@ CREATE TABLE collision_insight.vehicle_type (
 	vehicle_3 TEXT,
 	vehicle_4 TEXT,
 	vehicle_5 TEXT,
-	collision_id NUMERIC(7) PRIMARY KEY;
-	FOREIGN KEY(collision_id) REFERENCES vehicle_collision (collision_id)
+	collision_id NUMERIC(7) PRIMARY KEY,
+	FOREIGN KEY(collision_id) REFERENCES collision_insight.vehicle_collision (collision_id)
 );
 
 
