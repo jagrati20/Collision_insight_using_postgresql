@@ -1,7 +1,3 @@
--- This table combines the column which are in 3 of the 4 tabels 
--- The last table i.e. vehicle collision has only zip code, but we 
--- will get the county city and state from out additional dataset.
-
 CREATE TABLE collision_insight.location_data (
 	zipcode NUMERIC(5), 
 	county VARCHAR(50),
@@ -10,64 +6,49 @@ CREATE TABLE collision_insight.location_data (
 	PRIMARY KEY(zipcode)
 );
 
-
--- Although our dataset has latitude and longitude, we are not considering it now.
-
--- CREATE TABLE collision_insight.geometric_data (
--- 	latitude INTEGER,
--- 	longitude INTEGER,
--- 	zipcode NUMERIC(5),
--- 	PRIMARY KEY(latitude, longitude), 
--- 	FOREIGN KEY(zipcode) REFERENCES location_data (zipcode)
--- );
-
-
 -- https://hifld-geoplatform.opendata.arcgis.com/datasets/hospitals/data
 -- This is for USA and has 7596 rows
 
+create type hospital_type as enum('GENERAL ACUTE CARE', 'PSYCHIATRIC', 'CHILDREN', 'LONG TERM CARE',
+	'CRITICAL ACCESS', 'REHABILITATION', 'MILITARY', 'WOMEN', 'SPECIAL', 'CHRONIC DISEASE');
+
+create type hospital_naics_code as enum('622110', '622210', '622310');
+
+create type hospital_val_method as enum('IMAGERY/OTHER', 'IMAGERY');
+
+create type hospital_owner as enum('PROPRIETARY', 'GOVERNMENT - LOCAL','GOVERNMENT - DISTRICT/AUTHORITY', 
+	'NON-PROFIT', 'GOVERNMENT - STATE', 'NOT AVAILABLE', 'GOVERNMENT - FEDERAL', 'LIMITED LIABILITY COMPANY');
+
 CREATE TABLE collision_insight.hospital_details (
-	-- To remove these 4 column or keep them here in the schema 
-	-- instead of placing them in the combined location dataset
-	country TEXT,
-	countyfips NUMERIC(5),
-	state_id VARCHAR(10),
-	state_fips NUMERIC(2),
-
-
-	address VARCHAR(255),  
-	name VARCHAR(255), 
-	owner TEXT,
+	id NUMERIC(10),   
+	name VARCHAR(255),
+	alt_name TEXT,
+	address VARCHAR(255),
+	zipcode NUMERIC(5), 
 	telephone NUMERIC(10), 
+	status BOOLEAN,
 	population INT, 
 	source TEXT, 
 	sourcedate TIMESTAMP, 
-	website TEXT, 
-	alt_name TEXT, 
+	website TEXT,  
 	beds INT CHECK (beds >= 0), 
+	trauma VARCHAR(25),
 	helipad BOOLEAN, 
-	website TEXT, 
-	id NUMERIC(10), 
 	PRIMARY KEY (id),
-	zipcode NUMERIC(5),
-
 	FOREIGN KEY(zipcode) REFERENCES collision_insight.location_data (zipcode)
 );
 
+
 CREATE TABLE collision_insight.hospital_type (
 	id NUMERIC(10) PRIMARY KEY, 
-	type VARCHAR(20),
-	FOREIGN KEY(id) REFERENCES collision_insight.hospital_details (id),
-);
-
-CREATE TABLE collision_insight.hospital_status (
-	id NUMERIC(10) PRIMARY KEY, 
-	status BOOLEAN,
+	type hospital_type,
 	FOREIGN KEY(id) REFERENCES collision_insight.hospital_details (id)
 );
 
+
 CREATE TABLE collision_insight.hospital_naics (
 	id NUMERIC(10) PRIMARY KEY, 
-	naics_code NUMERIC(6),
+	naics_code hospital_naics_code,
 	naics_desc TEXT,
 	FOREIGN KEY(id) REFERENCES collision_insight.hospital_details (id)
 );
@@ -75,13 +56,13 @@ CREATE TABLE collision_insight.hospital_naics (
 CREATE TABLE collision_insight.hospital_val (
 	id NUMERIC(10) PRIMARY KEY, 
 	val_date TIMESTAMP, 
-	val_method TEXT, 
+	val_method hospital_val_method,
 	FOREIGN KEY(id) REFERENCES collision_insight.hospital_details (id)
 );
 
 CREATE TABLE collision_insight.hospital_owner (
 	id NUMERIC(10) PRIMARY KEY, 
-	owner 
+	owner hospital_owner,
 	FOREIGN KEY(id) REFERENCES collision_insight.hospital_details (id)
 );
 
@@ -92,28 +73,23 @@ CREATE TABLE collision_insight.hospital_owner (
 
 CREATE TABLE collision_insight.liquor_shop_info (
 	
+	serial_number BIGSERIAL PRIMARY KEY,
 	license_type_code VARCHAR(2), 
 	license_class_code NUMERIC(3),
 	certificate_number INTEGER, 
+	premise_name VARCHAR(255), 
+	dba VARCHAR(255),
+	premise_address TEXT, 
+	premise_address2 TEXT, 
+	zipcode NUMERIC(5),
 	license_issued_date DATE, 
 	license_expiration_date DATE, 
 	method_of_operation VARCHAR(255), 
-	premise_name VARCHAR(255), 
-	premise_address TEXT, 
-	premise_address2 TEXT, 
-	dba VARCHAR(255),
-	others TEXT,
-	serial_number BIGSERIAL PRIMARY KEY, 
-	zipcode NUMERIC(5),
-	FOREIGN KEY(zipcode) REFERENCES collision_insight.location_data (zipcode)
-);
-
-CREATE TABLE collision_insight.liquor_shop_extras (
 	days_hours_of_operation TEXT, 
-	serial_number BIGSERIAL PRIMARY KEY, 
-	FOREIGN KEY(serial_number) REFERENCES collision_insight.liquor_shop_info (serial_number)
-);
+	others TEXT,
+	FOREIGN KEY(zipcode) REFERENCES collision_insight.location_data (zipcode)
 
+);
 
 -- https://data.ny.gov/Transportation/Vehicle-Repair-Shops-Across-New-York-State/icjc-x44x
 -- This is for NY State with 23.7K rows
