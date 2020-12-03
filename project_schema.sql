@@ -6,9 +6,6 @@ CREATE TABLE collision_insight.location_data (
 	PRIMARY KEY(zipcode)
 );
 
--- https://hifld-geoplatform.opendata.arcgis.com/datasets/hospitals/data
--- This is for USA and has 7596 rows
-
 create type hospital_type as enum('GENERAL ACUTE CARE', 'PSYCHIATRIC', 'CHILDREN', 'LONG TERM CARE',
 	'CRITICAL ACCESS', 'REHABILITATION', 'MILITARY', 'WOMEN', 'SPECIAL', 'CHRONIC DISEASE');
 
@@ -38,13 +35,11 @@ CREATE TABLE collision_insight.hospital_details (
 	FOREIGN KEY(zipcode) REFERENCES collision_insight.location_data (zipcode)
 );
 
-
 CREATE TABLE collision_insight.hospital_type (
 	id NUMERIC(10) PRIMARY KEY, 
 	type hospital_type,
 	FOREIGN KEY(id) REFERENCES collision_insight.hospital_details (id)
 );
-
 
 CREATE TABLE collision_insight.hospital_naics (
 	id NUMERIC(10) PRIMARY KEY, 
@@ -66,13 +61,7 @@ CREATE TABLE collision_insight.hospital_owner (
 	FOREIGN KEY(id) REFERENCES collision_insight.hospital_details (id)
 );
 
-
--- https://data.ny.gov/Economic-Development/Liquor-Authority-Current-List-of-Active-Licenses/hrvs-fxs2
--- This is for NY State and has 50.5K rows 
--- Full county name
-
 CREATE TABLE collision_insight.liquor_shop_info (
-	
 	serial_number BIGSERIAL PRIMARY KEY,
 	license_type_code VARCHAR(2), 
 	license_class_code NUMERIC(3),
@@ -88,12 +77,7 @@ CREATE TABLE collision_insight.liquor_shop_info (
 	days_hours_of_operation TEXT, 
 	others TEXT,
 	FOREIGN KEY(zipcode) REFERENCES collision_insight.location_data (zipcode)
-
 );
-
--- https://data.ny.gov/Transportation/Vehicle-Repair-Shops-Across-New-York-State/icjc-x44x
--- This is for NY State with 23.7K rows
--- This dataset has county in 4 letters 
 
 CREATE TABLE collision_insight.vehicle_repair_info (
 	facility_id NUMERIC(7) PRIMARY KEY, 
@@ -110,15 +94,10 @@ CREATE TABLE collision_insight.vehicle_repair_info (
 );
 
 CREATE TABLE collision_insight.vehicle_repair_business_type (
-	business_type BOOLEAN,	
-	-- RS and RSB types
+	business_type BOOLEAN,
 	facility_id NUMERIC(7) PRIMARY KEY, 
 	FOREIGN KEY(facility_id) REFERENCES collision_insight.vehicle_repair_info (facility_id)
 );
-
-
--- https://data.cityofnewyork.us/Public-Safety/Motor-Vehicle-Collisions-Crashes/h9gi-nx95
--- This is for NYC only with 1.73M rows.
 
 CREATE TABLE collision_insight.vehicle_collision (
 	crash_date DATE,
@@ -160,4 +139,7 @@ CREATE TABLE collision_insight.vehicle_type (
 	FOREIGN KEY(collision_id) REFERENCES collision_insight.vehicle_collision (collision_id)
 );
 
+GRANT ALL PRIVILEGES ON location_data, hospital_details, hospital_type, hospital_naics, hospital_val,
+hospital_owner, liquor_shop_info, vehicle_repair_info, vehicle_repair_business_type, vehicle_collision,
+contributing_factor_vehicle, vehicle_type TO collision_insight;
 
