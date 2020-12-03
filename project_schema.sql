@@ -18,6 +18,8 @@ create type hospital_owner as enum('PROPRIETARY', 'GOVERNMENT - LOCAL','GOVERNME
 
 create type sitting_interest as enum('sidewalk', 'both', 'roadway', 'openstreets');
 
+create type business as enum('RS', 'RSB');
+
 CREATE TABLE collision_insight.hospital_details (
 	id NUMERIC(10),   
 	name VARCHAR(255),
@@ -96,8 +98,8 @@ CREATE TABLE collision_insight.vehicle_repair_info (
 );
 
 CREATE TABLE collision_insight.vehicle_repair_business_type (
-	business_type BOOLEAN,
-	facility_id NUMERIC(7) PRIMARY KEY, 
+	facility_id NUMERIC(7) PRIMARY KEY,
+	business_type business, 
 	FOREIGN KEY(facility_id) REFERENCES collision_insight.vehicle_repair_info (facility_id)
 );
 
