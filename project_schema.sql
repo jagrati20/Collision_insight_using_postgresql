@@ -16,6 +16,8 @@ create type hospital_val_method as enum('IMAGERY/OTHER', 'IMAGERY');
 create type hospital_owner as enum('PROPRIETARY', 'GOVERNMENT - LOCAL','GOVERNMENT - DISTRICT/AUTHORITY', 
 	'NON-PROFIT', 'GOVERNMENT - STATE', 'NOT AVAILABLE', 'GOVERNMENT - FEDERAL', 'LIMITED LIABILITY COMPANY');
 
+create type sitting_interest as enum('sidewalk', 'both', 'roadway', 'openstreets');
+
 CREATE TABLE collision_insight.hospital_details (
 	id NUMERIC(10),   
 	name VARCHAR(255),
@@ -99,47 +101,30 @@ CREATE TABLE collision_insight.vehicle_repair_business_type (
 	FOREIGN KEY(facility_id) REFERENCES collision_insight.vehicle_repair_info (facility_id)
 );
 
-CREATE TABLE collision_insight.vehicle_collision (
-	crash_date DATE,
-	crash_time TIME,
-	BORO VARCHAR,
-	on_street_name VARCHAR,
-	cross_street_name VARCHAR,
-	off_street_name VARCHAR,
-	person_injured INTEGER,
-	person_killed INTEGER,
-	pedistrian_injured INTEGER,
-	pedistrian_killed INTEGER,
-	cyclist_injured INTEGER,
-	cyclist_killed INTEGER,
-	motorist_injured INTEGER,
-	motorist_killed INTEGER,
-	collision_id NUMERIC(7) PRIMARY KEY,	
+CREATE TABLE collision_insight.restaurant_info (
+	id BIGSERIAL PRIMARY KEY,
+	seating_interest sitting_interest,
+	restaurant_name VARCHAR(127),
+	legal_business_name VARCHAR(127),
+	DBA VARCHAR(127),
 	zipcode NUMERIC(5),
+	business_address VARCHAR(255),
+	food_service_establishment_permit NUMERIC(10),
+	approved_for_sidewalk_seating BOOLEAN,
+	approved_for_roadway_eating BOOLEAN,
+	qualify_alcohol BOOLEAN,
+	SLA_license_type VARCHAR(2),
+	landmark_district_or_building BOOLEAN,
+	landmark_district_terms BOOLEAN,
+	health_compliance_terms BOOLEAN,
+	time_of_submission TIMESTAMP,
+	bin NUMERIC(10),
+	bbl NUMERIC(10),
+	nta VARCHAR(67),
 	FOREIGN KEY(zipcode) REFERENCES collision_insight.location_data (zipcode)
 );
 
-CREATE TABLE collision_insight.contributing_factor_vehicle (
-	contributing_factor_vehicle_1 VARCHAR(20),
-	contributing_factor_vehicle_2 VARCHAR(20),
-	contributing_factor_vehicle_3 VARCHAR(20),
-	contributing_factor_vehicle_4 VARCHAR(20),
-	contributing_factor_vehicle_5 VARCHAR(20),
-	collision_id NUMERIC(7) PRIMARY KEY,
-	FOREIGN KEY(collision_id) REFERENCES collision_insight.vehicle_collision (collision_id)
-);
-
-CREATE TABLE collision_insight.vehicle_type (
-	vehicle_1 TEXT,
-	vehicle_2 TEXT,
-	vehicle_3 TEXT,
-	vehicle_4 TEXT,
-	vehicle_5 TEXT,
-	collision_id NUMERIC(7) PRIMARY KEY,
-	FOREIGN KEY(collision_id) REFERENCES collision_insight.vehicle_collision (collision_id)
-);
 
 GRANT ALL PRIVILEGES ON location_data, hospital_details, hospital_type, hospital_naics, hospital_val,
-hospital_owner, liquor_shop_info, vehicle_repair_info, vehicle_repair_business_type, vehicle_collision,
-contributing_factor_vehicle, vehicle_type TO collision_insight;
+hospital_owner, liquor_shop_info, vehicle_repair_info, vehicle_repair_business_type, restaurant_info;
 
