@@ -36,33 +36,33 @@ CREATE TABLE collision_insight.hospital_details (
 	trauma VARCHAR(25),
 	helipad BOOLEAN, 
 	PRIMARY KEY (id),
-	FOREIGN KEY(zipcode) REFERENCES collision_insight.location_data (zipcode)
+	FOREIGN KEY(zipcode) REFERENCES collision_insight.location_data (zipcode) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 CREATE TABLE collision_insight.hospital_type (
 	id NUMERIC(10) PRIMARY KEY, 
 	type hospital_type,
-	FOREIGN KEY(id) REFERENCES collision_insight.hospital_details (id)
+	FOREIGN KEY(id) REFERENCES collision_insight.hospital_details (id) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 CREATE TABLE collision_insight.hospital_naics (
 	id NUMERIC(10) PRIMARY KEY, 
 	naics_code hospital_naics_code,
 	naics_desc TEXT,
-	FOREIGN KEY(id) REFERENCES collision_insight.hospital_details (id)
+	FOREIGN KEY(id) REFERENCES collision_insight.hospital_details (id) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 CREATE TABLE collision_insight.hospital_val (
 	id NUMERIC(10) PRIMARY KEY, 
 	val_date TIMESTAMP, 
 	val_method hospital_val_method,
-	FOREIGN KEY(id) REFERENCES collision_insight.hospital_details (id)
+	FOREIGN KEY(id) REFERENCES collision_insight.hospital_details (id) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 CREATE TABLE collision_insight.hospital_owner (
 	id NUMERIC(10) PRIMARY KEY, 
 	owner hospital_owner,
-	FOREIGN KEY(id) REFERENCES collision_insight.hospital_details (id)
+	FOREIGN KEY(id) REFERENCES collision_insight.hospital_details (id) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 CREATE TABLE collision_insight.liquor_shop_info (
@@ -80,7 +80,7 @@ CREATE TABLE collision_insight.liquor_shop_info (
 	method_of_operation VARCHAR(255), 
 	days_hours_of_operation TEXT, 
 	others TEXT,
-	FOREIGN KEY(zipcode) REFERENCES collision_insight.location_data (zipcode)
+	FOREIGN KEY(zipcode) REFERENCES collision_insight.location_data (zipcode) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 CREATE TABLE collision_insight.vehicle_repair_info (
@@ -94,13 +94,13 @@ CREATE TABLE collision_insight.vehicle_repair_info (
 	last_renewal DATE, 	
 	expiration DATE, 	 	
 	zipcode NUMERIC(5),
-	FOREIGN KEY(zipcode) REFERENCES collision_insight.location_data (zipcode)
+	FOREIGN KEY(zipcode) REFERENCES collision_insight.location_data (zipcode) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 CREATE TABLE collision_insight.vehicle_repair_business_type (
 	facility_id NUMERIC(7) PRIMARY KEY,
 	business_type business, 
-	FOREIGN KEY(facility_id) REFERENCES collision_insight.vehicle_repair_info (facility_id)
+	FOREIGN KEY(facility_id) REFERENCES collision_insight.vehicle_repair_info (facility_id) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 CREATE TABLE collision_insight.restaurant_info (
@@ -123,7 +123,7 @@ CREATE TABLE collision_insight.restaurant_info (
 	bin NUMERIC(10),
 	bbl NUMERIC(10),
 	nta VARCHAR(67),
-	FOREIGN KEY(zipcode) REFERENCES collision_insight.location_data (zipcode)
+	FOREIGN KEY(zipcode) REFERENCES collision_insight.location_data (zipcode) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 
