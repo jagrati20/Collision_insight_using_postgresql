@@ -118,8 +118,8 @@ CREATE TABLE collision_insight.vehicle_collision (
 	motorist_injured INTEGER,
 	motorist_killed INTEGER,	
 	zipcode NUMERIC(5),
-	contributing_factors TEXT, --All the contributing factors in a single table as advised.
-	vehicle_type_code TEXT, -- All colliding Vehicle types in a single column
+	contributing_factors TEXT, 
+	vehicle_type_code TEXT, 
 	FOREIGN KEY(zipcode) REFERENCES collision_insight.location_data (zipcode) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
