@@ -124,6 +124,6 @@ CREATE TABLE collision_insight.vehicle_collision (
 );
 
 
-GRANT ALL PRIVILEGES ON location_data, hospital_details, hospital_type, hospital_naics, hospital_val,
-hospital_owner, liquor_shop_info, vehicle_repair_info, vehicle_repair_business_type, restaurant_info;
+GRANT ALL PRIVILEGES ON collision_insight.location_data, collision_insight.hospital_details, collision_insight.hospital_type, collision_insight.hospital_naics, collision_insight.hospital_val,
+collision_insight.hospital_owner, collision_insight.liquor_shop_info, collision_insight.vehicle_repair_info, collision_insight.vehicle_repair_business_type, collision_insight.vehicle_collision;
 
