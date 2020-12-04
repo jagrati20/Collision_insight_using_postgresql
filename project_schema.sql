@@ -1,3 +1,6 @@
+DROP SCHEMA IF EXISTS collision_insight CASCADE;
+CREATE SCHEMA AUTHORIZATION collision_insight;
+
 CREATE TABLE collision_insight.location_data (
 	zipcode NUMERIC(5), 
 	county VARCHAR(50),
@@ -6,14 +9,14 @@ CREATE TABLE collision_insight.location_data (
 	PRIMARY KEY(zipcode)
 );
 
-create type hospital_type as enum('GENERAL ACUTE CARE', 'PSYCHIATRIC', 'CHILDREN', 'LONG TERM CARE',
+create type hospital_types as enum('GENERAL ACUTE CARE', 'PSYCHIATRIC', 'CHILDREN', 'LONG TERM CARE',
 	'CRITICAL ACCESS', 'REHABILITATION', 'MILITARY', 'WOMEN', 'SPECIAL', 'CHRONIC DISEASE');
 
 create type hospital_naics_code as enum('622110', '622210', '622310');
 
 create type hospital_val_method as enum('IMAGERY/OTHER', 'IMAGERY');
 
-create type hospital_owner as enum('PROPRIETARY', 'GOVERNMENT - LOCAL','GOVERNMENT - DISTRICT/AUTHORITY', 
+create type hospital_owners as enum('PROPRIETARY', 'GOVERNMENT - LOCAL','GOVERNMENT - DISTRICT/AUTHORITY', 
 	'NON-PROFIT', 'GOVERNMENT - STATE', 'NOT AVAILABLE', 'GOVERNMENT - FEDERAL', 'LIMITED LIABILITY COMPANY');
 
 create type sitting_interest as enum('sidewalk', 'both', 'roadway', 'openstreets');
@@ -33,15 +36,14 @@ CREATE TABLE collision_insight.hospital_details (
 	sourcedate TIMESTAMP, 
 	website TEXT,  
 	beds INT CHECK (beds >= 0), 
-	trauma VARCHAR(25),
+	trauma VARCHAR(127),
 	helipad BOOLEAN, 
-	PRIMARY KEY (id),
-	FOREIGN KEY(zipcode) REFERENCES collision_insight.location_data (zipcode) ON UPDATE CASCADE ON DELETE CASCADE
+	PRIMARY KEY (id)
 );
 
 CREATE TABLE collision_insight.hospital_type (
 	id NUMERIC(10) PRIMARY KEY, 
-	type hospital_type,
+	type hospital_types,
 	FOREIGN KEY(id) REFERENCES collision_insight.hospital_details (id) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
@@ -61,7 +63,7 @@ CREATE TABLE collision_insight.hospital_val (
 
 CREATE TABLE collision_insight.hospital_owner (
 	id NUMERIC(10) PRIMARY KEY, 
-	owner hospital_owner,
+	owner hospital_owners,
 	FOREIGN KEY(id) REFERENCES collision_insight.hospital_details (id) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
@@ -79,8 +81,7 @@ CREATE TABLE collision_insight.liquor_shop_info (
 	license_expiration_date DATE, 
 	method_of_operation VARCHAR(255), 
 	days_hours_of_operation TEXT, 
-	others TEXT,
-	FOREIGN KEY(zipcode) REFERENCES collision_insight.location_data (zipcode) ON UPDATE CASCADE ON DELETE CASCADE
+	others TEXT
 );
 
 CREATE TABLE collision_insight.vehicle_repair_info (
@@ -93,8 +94,7 @@ CREATE TABLE collision_insight.vehicle_repair_info (
 	original_issuance DATE, 	
 	last_renewal DATE, 	
 	expiration DATE, 	 	
-	zipcode NUMERIC(5),
-	FOREIGN KEY(zipcode) REFERENCES collision_insight.location_data (zipcode) ON UPDATE CASCADE ON DELETE CASCADE
+	zipcode NUMERIC(5)
 );
 
 CREATE TABLE collision_insight.vehicle_repair_business_type (
@@ -108,7 +108,7 @@ CREATE TABLE collision_insight.vehicle_collision (
 	crash_date DATE,
 	crash_time TIME,
 	BORO VARCHAR,
-	street_address TEXT
+	street_address TEXT,
 	person_injured INTEGER,
 	person_killed INTEGER,
 	pedistrian_injured INTEGER,
@@ -119,11 +119,11 @@ CREATE TABLE collision_insight.vehicle_collision (
 	motorist_killed INTEGER,	
 	zipcode NUMERIC(5),
 	contributing_factors TEXT, --All the contributing factors in a single table as advised.
-	vehicle_type_code TEXT, -- All colliding Vehicle types in a single column
-	FOREIGN KEY(zipcode) REFERENCES collision_insight.location_data (zipcode) ON UPDATE CASCADE ON DELETE CASCADE
+	vehicle_type_code TEXT -- All colliding Vehicle types in a single column
 );
 
 
 GRANT ALL PRIVILEGES ON collision_insight.location_data, collision_insight.hospital_details, collision_insight.hospital_type, collision_insight.hospital_naics, collision_insight.hospital_val,
-collision_insight.hospital_owner, collision_insight.liquor_shop_info, collision_insight.vehicle_repair_info, collision_insight.vehicle_repair_business_type, collision_insight.vehicle_collision;
+collision_insight.hospital_owner, collision_insight.liquor_shop_info, collision_insight.vehicle_repair_info, collision_insight.vehicle_repair_business_type, collision_insight.vehicle_collision
+to collision_insight;
 
