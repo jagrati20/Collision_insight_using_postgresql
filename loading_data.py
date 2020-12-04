@@ -31,6 +31,11 @@ with open('Datasets/liquor datasets/liquor_shop_info.csv', 'r') as liquorInfo:
     next(liquorInfo)
     cur.copy_from(liquorInfo, 'liquor_shop_info', sep=',')
 
+# Populating location dataset
+with open('Datasets/location_combo.csv', 'r') as location:
+    next(location)
+    cur.copy_from(location, 'location_data', sep=',')
+
 # Loading vehicle repair datasets
 with open('Datasets/Vehicle Repair Datasets/Vehicle_Repairs.csv', 'r') as vehicleRepair:
     next(vehicleRepair)
