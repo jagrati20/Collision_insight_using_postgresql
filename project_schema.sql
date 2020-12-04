@@ -103,26 +103,23 @@ CREATE TABLE collision_insight.vehicle_repair_business_type (
 	FOREIGN KEY(facility_id) REFERENCES collision_insight.vehicle_repair_info (facility_id) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
-CREATE TABLE collision_insight.restaurant_info (
-	id BIGSERIAL PRIMARY KEY,
-	seating_interest sitting_interest,
-	restaurant_name VARCHAR(127),
-	legal_business_name VARCHAR(127),
-	DBA VARCHAR(127),
+CREATE TABLE collision_insight.vehicle_collision (
+	collision_id NUMERIC(7) PRIMARY KEY,
+	crash_date DATE,
+	crash_time TIME,
+	BORO VARCHAR,
+	street_address TEXT
+	person_injured INTEGER,
+	person_killed INTEGER,
+	pedistrian_injured INTEGER,
+	pedistrian_killed INTEGER,
+	cyclist_injured INTEGER,
+	cyclist_killed INTEGER,
+	motorist_injured INTEGER,
+	motorist_killed INTEGER,	
 	zipcode NUMERIC(5),
-	business_address VARCHAR(255),
-	food_service_establishment_permit NUMERIC(10),
-	approved_for_sidewalk_seating BOOLEAN,
-	approved_for_roadway_eating BOOLEAN,
-	qualify_alcohol BOOLEAN,
-	SLA_license_type VARCHAR(2),
-	landmark_district_or_building BOOLEAN,
-	landmark_district_terms BOOLEAN,
-	health_compliance_terms BOOLEAN,
-	time_of_submission TIMESTAMP,
-	bin NUMERIC(10),
-	bbl NUMERIC(10),
-	nta VARCHAR(67),
+	contributing_factors TEXT, --All the contributing factors in a single table as advised.
+	vehicle_type_code TEXT, -- All colliding Vehicle types in a single column
 	FOREIGN KEY(zipcode) REFERENCES collision_insight.location_data (zipcode) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
