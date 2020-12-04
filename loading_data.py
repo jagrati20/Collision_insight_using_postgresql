@@ -1,5 +1,6 @@
 import psycopg2
-
+import pandas as pd
+import dicttoxml
 conn = psycopg2.connect("dbname=collision_insight host=localhost dbname=collision_insight user=collision_insight")
 
 cur = conn.cursor()
@@ -41,11 +42,23 @@ with open('Datasets/Vehicle Repair Datasets/Vehicle_Business.csv', 'r') as vehic
     cur.copy_from(vehicleBusiness, 'vehicle_repair_business_type', sep=',')
 
 # Populating location dataset
-with open('Datasets/location_combo.csv', 'r') as location:
-    next(location)
-    cur.copy_from(location, 'location_data', sep=',')
+# with open('Datasets/location_combo.csv', 'r') as location:
+#     next(location)
+#     cur.copy_from(location, 'location_data', sep=',')
 
-print('finished loading')
+# print('finished loading')
+data = pd.read_csv('Datasets/Vehicle Collision datasets/vehicle_collision.csv')
+data_dict = data.to_dict(orient="records")
+collision_xml_data = dicttoxml(data_dict).decode()
+with open("collisions.xml", "w+") as f:
+    f.write(collision_xml_data)
+
+data = pd.read_csv('Datasets/location_combo.csv')
+data_dict = data.to_dict(orient="records")
+collision_xml_data = dicttoxml(data_dict).decode()
+with open("locations.xml", "w+") as f:
+    f.write(collision_xml_data)
+
 
 conn.commit()
 
