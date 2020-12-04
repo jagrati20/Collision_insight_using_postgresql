@@ -23,6 +23,8 @@ create type sitting_interest as enum('sidewalk', 'both', 'roadway', 'openstreets
 
 create type business as enum('RS', 'RSB');
 
+create type status_type as enum ('CLOSED', 'OPEN');
+
 CREATE TABLE collision_insight.hospital_details (
 	id NUMERIC(10),   
 	name VARCHAR(255),
@@ -30,7 +32,7 @@ CREATE TABLE collision_insight.hospital_details (
 	address VARCHAR(255),
 	zipcode NUMERIC(5), 
 	telephone NUMERIC(10), 
-	status BOOLEAN,
+	status status_type,
 	population INT, 
 	source TEXT, 
 	sourcedate TIMESTAMP, 
@@ -118,14 +120,8 @@ CREATE TABLE collision_insight.vehicle_collision (
 	motorist_injured INTEGER,
 	motorist_killed INTEGER,	
 	zipcode NUMERIC(5),
-<<<<<<< HEAD
 	contributing_factors TEXT, --All the contributing factors in a single table as advised.
 	vehicle_type_code TEXT -- All colliding Vehicle types in a single column
-=======
-	contributing_factors TEXT, 
-	vehicle_type_code TEXT, 
-	FOREIGN KEY(zipcode) REFERENCES collision_insight.location_data (zipcode) ON UPDATE CASCADE ON DELETE CASCADE
->>>>>>> 9468edb9a029018026f74017fab47b0760a19406
 );
 
 
