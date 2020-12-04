@@ -1,13 +1,12 @@
 import psycopg2
 import pandas as pd
-import dicttoxml
-conn = psycopg2.connect("dbname=collision_insight host=localhost dbname=collision_insight user=collision_insight")
+from dicttoxml import dicttoxml
 
+conn = psycopg2.connect("dbname=collision_insight host=localhost dbname=collision_insight user=collision_insight")
 cur = conn.cursor()
 
 # Loading Hospital Datasets
 with open('Datasets/Hospital datasets/hospital_details.csv', mode='r') as hospitalDetails:
-    #Skipping the header
     next(hospitalDetails)
     cur.copy_from(hospitalDetails, 'hospital_details', sep=',')
 
@@ -41,27 +40,19 @@ with open('Datasets/Vehicle Repair Datasets/Vehicle_Business.csv', 'r') as vehic
     next(vehicleBusiness)
     cur.copy_from(vehicleBusiness, 'vehicle_repair_business_type', sep=',')
 
-# Populating location dataset
-# with open('Datasets/location_combo.csv', 'r') as location:
-#     next(location)
-#     cur.copy_from(location, 'location_data', sep=',')
+# Loading vehicle collision dataset
+with open('Datasets/Vehicle Collision datasets/vehicle_collision.csv', 'r') as collision:
+    next(collision)
+    cur.copy_from(collision, 'vehicle_collision', sep=',')
 
-# print('finished loading')
-data = pd.read_csv('Datasets/Vehicle Collision datasets/vehicle_collision.csv')
-data_dict = data.to_dict(orient="records")
-collision_xml_data = dicttoxml(data_dict).decode()
-with open("collisions.xml", "w+") as f:
-    f.write(collision_xml_data)
-
-data = pd.read_csv('Datasets/location_combo.csv')
+# Making XML file
+data = pd.read_csv('Datasets/location_combo.csv', sep=',')
 data_dict = data.to_dict(orient="records")
 collision_xml_data = dicttoxml(data_dict).decode()
 with open("locations.xml", "w+") as f:
     f.write(collision_xml_data)
 
-
 conn.commit()
 
 cur.close()
-
 conn.close()
