@@ -9,18 +9,20 @@ def RunApplication():
     switch(value)
 
 
-def default():
+def default(self):
     print("Incorrect! "
           "choose again")
-    RunApplication()
+    self.RunApplication(self)
 
 
-def Collision(self):
-    CollisionData.check_connectivity(self)
+def Collision():
+    cd = CollisionData()
+    cd.check_connectivity()
 
 
-def Hospital(self):
-    CollisionData.check_hospital(self)
+def Hospital():
+    cd = CollisionData()
+    cd.check_hospital()
 
 
 switcher = {
@@ -30,7 +32,7 @@ switcher = {
 
 
 def switch(value):
-    return switcher.get(value, default)
+    return switcher.get(value, default)()
 
 
 RunApplication()

@@ -32,5 +32,6 @@ class CollisionData:
         cursor = self.conn.cursor()
         cursor.execute("SELECT * FROM collision_insight.hospital_details")
         records = cursor.fetchall()
+
         print(records)
         self.conn.close()
