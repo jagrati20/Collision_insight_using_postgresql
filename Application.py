@@ -5,19 +5,20 @@ def RunApplication():
     print('Choose a number from the following:')
     print('1. Query Collision Data')
     print('2. Query Hospital Data')
+    print('5. Exit Application')
     value = input()
     switch(value)
 
 
-def default(self):
-    print("Incorrect! "
-          "choose again")
-    self.RunApplication(self)
+def default():
+    print("\nInvalid Input! "
+          "Please choose again \n")
+    RunApplication()
 
 
 def Collision():
     cd = CollisionData()
-    cd.check_connectivity()
+    cd.check_collisions()
 
 
 def Hospital():
@@ -27,7 +28,8 @@ def Hospital():
 
 switcher = {
     '1': Collision,
-    '2': Hospital
+    '2': Hospital,
+    '5': SystemExit
 }
 
 
