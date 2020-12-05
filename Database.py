@@ -12,14 +12,13 @@ class CollisionData:
 
     conn = psycopg2.connect(connection_string, cursor_factory=psycopg2.extras.DictCursor)
 
-    def SetUp(self):
-        xml_file = 'locations.xml'
-        parser = etree.XMLParser(ns_clean=True)
 
-        tree = etree.parse(xml_file, parser)
-        self.conn.commit()
-        # self.conn.close()
-        print('here 2')
+    xml_file = 'locations.xml'
+    parser = etree.XMLParser(ns_clean=True)
+    tree = etree.parse(xml_file, parser)
+    # self.conn.commit()
+    # self.conn.close()
+    print('here 2')
 
     def check_collisions(self):
         cursor = self.conn.cursor()
@@ -97,4 +96,13 @@ class CollisionData:
         records = cursor.fetchall()
 
         print(records)
+        print(self.get_county)
         self.conn.close()
+
+    def run_query(self, query):
+        return self.tree.xpath(query)
+
+    def get_county(self):
+        c = self.run_query('/root/item[ZIP/text()=91706]/COUNTY/text()')
+        print(c)
+        return c

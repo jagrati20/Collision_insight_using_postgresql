@@ -25,7 +25,7 @@ from dicttoxml import dicttoxml
 # conn2.commit()
 # conn2.close()
 
-conn = psycopg2.connect("dbname=collision_insight host=localhost dbname=collision_insight user=collision_insight")
+conn = psycopg2.connect("dbname=collision_insight host=localhost user=collision_insight password=collision_insight")
 cur = conn.cursor()
 
 with conn.cursor() as cursor:
