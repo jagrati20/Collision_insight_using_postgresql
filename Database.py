@@ -6,7 +6,6 @@ from lxml import etree
 
 
 class CollisionData:
-
     connection_string = "dbname='collision_insight' host='localhost' dbname='collision_insight' " \
                         "user='collision_insight' password='collision_insight'"
 
@@ -29,7 +28,9 @@ class CollisionData:
         print(records)
         self.conn.close()
 
-
-if __name__ == '__main__':
-    CollisionData().SetUp()
-    CollisionData().check_connectivity()
+    def check_hospital(self):
+        cursor = self.conn.cursor()
+        cursor.execute("SELECT * FROM collision_insight.hospital_details")
+        records = cursor.fetchall()
+        print(records)
+        self.conn.close()
