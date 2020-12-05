@@ -1,6 +1,7 @@
 import psycopg2
 import psycopg2.extras
 import loading_data
+import lxml
 from lxml import etree
 
 
