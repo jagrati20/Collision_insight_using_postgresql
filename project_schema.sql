@@ -1,14 +1,6 @@
 DROP SCHEMA IF EXISTS collision_insight CASCADE;
 CREATE SCHEMA AUTHORIZATION collision_insight;
 
-CREATE TABLE collision_insight.location_data (
-	zipcode NUMERIC(5), 
-	county VARCHAR(50),
-	city VARCHAR(85),
-	state VARCHAR(2),
-	PRIMARY KEY(zipcode)
-);
-
 create type hospital_types as enum('GENERAL ACUTE CARE', 'PSYCHIATRIC', 'CHILDREN', 'LONG TERM CARE',
 	'CRITICAL ACCESS', 'REHABILITATION', 'MILITARY', 'WOMEN', 'SPECIAL', 'CHRONIC DISEASE');
 
@@ -125,7 +117,7 @@ CREATE TABLE collision_insight.vehicle_collision (
 );
 
 
-GRANT ALL PRIVILEGES ON collision_insight.location_data, collision_insight.hospital_details, collision_insight.hospital_type, collision_insight.hospital_naics, collision_insight.hospital_val,
+GRANT ALL PRIVILEGES ON collision_insight.hospital_details, collision_insight.hospital_type, collision_insight.hospital_naics, collision_insight.hospital_val,
 collision_insight.hospital_owner, collision_insight.liquor_shop_info, collision_insight.vehicle_repair_info, collision_insight.vehicle_repair_business_type, collision_insight.vehicle_collision
 to collision_insight;
 

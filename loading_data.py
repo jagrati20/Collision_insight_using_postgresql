@@ -2,8 +2,21 @@ import psycopg2
 import pandas as pd
 from dicttoxml import dicttoxml
 
+# conn2 = psycopg2.connect("user='postgres' dbname='postgres' password='postgres'")
+# cur2 = conn2.cursor()
+#
+# with conn2.cursor() as cursor:
+#     with open('database-setup.sql', 'r') as project:
+#         setup_queries = project.read()
+#         cursor.execute(setup_queries)
+
 conn = psycopg2.connect("dbname=collision_insight host=localhost dbname=collision_insight user=collision_insight")
 cur = conn.cursor()
+
+with conn.cursor() as cursor:
+    with open('project_schema.sql', 'r') as project:
+        setup_queries = project.read()
+        cursor.execute(setup_queries)
 
 # Loading Hospital Datasets
 with open('Datasets/Hospital datasets/hospital_details.csv', mode='r') as hospitalDetails:
