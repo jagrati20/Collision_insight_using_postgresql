@@ -26,15 +26,15 @@ class CollisionData:
               '\n6. Exit the application'
               '\n7. Any other number to explore other datasets')
 
-        selection = input()
+        user_input = input()
         try:
-            val = int(selection)
+            user_input = int(user_input)
         except ValueError:
             print("\nThe value entered is not an integer value! Please try again.")
             self.check_collisions()
 
         # Collisions corresponding to a type of vehicle
-        if val == 1:
+        if user_input == 1:
             print("Please enter the type of the vehicle")
             vehicle = input()
             # checks if value is a string
@@ -65,12 +65,10 @@ class CollisionData:
                                              "Zipcode",
                                              "Colliding Vehicles",
                                              "Contributing Factors"], tablefmt="fancy_grid", floatfmt="10.0f"))
-            # for r in records:
-            #     print(str(r[0]) + "\t" + str(r[1]) + "\t" + str(r[2]) + "\t" + str(r[3]))
             self.check_collisions()
 
         # Collisions due to a factor
-        elif val == 2:
+        elif user_input == 2:
             print("Please enter the factor influencing the vehicle collision")
             factor = input()
             try:
@@ -100,13 +98,11 @@ class CollisionData:
                                              "Zipcode",
                                              "Contributing Factors",
                                              "Colliding Vehicles"], tablefmt="fancy_grid", floatfmt="10.0f"))
-            # for r in records:
-            #     print(str(r[0]) + "\t" + str(r[1]) + "\t" + str(r[2]) + "\t" + str(r[3]))
 
             self.check_collisions()
 
         # Got a Collision ID?
-        elif val == 3:
+        elif user_input == 3:
             print("Please enter the Collision ID")
             collision_id = input()
             try:
@@ -135,12 +131,10 @@ class CollisionData:
                                              "Zipcode",
                                              "Contributing Factors",
                                              "Colliding Vehicles"], tablefmt="fancy_grid", floatfmt="10.0f"))
-            # for r in records:
-            #     print(str(r[0]) + "\t" + str(r[1]) + "\t" + str(r[2]) + "\t" + str(r[3]))
             self.check_collisions()
 
         # Wanna have it all?!'
-        elif val == 4:
+        elif user_input == 4:
             print("Hold tight...")
             print("Wait for it... sit back and relax while we populate the data for you!")
             cursor.execute("SELECT * FROM collision_insight.vehicle_collision LIMIT 500")
@@ -165,26 +159,16 @@ class CollisionData:
                                              "Zipcode",
                                              "Contributing Factors",
                                              "Colliding Vehicles"], tablefmt="fancy_grid", floatfmt="10.0f"))
-            # for r in records:
-            #     print(
-            #         str(r[0]) + "\t" + str(r[1]) + "\t" + str(r[2]) + "\t" + str(r[3]) + "\t" + str(r[4]) + "\t" + str(
-            #             r[5]) + "\t" + str(r[6]) + "\t" + str(r[7]) + "\t" + str(r[8]) + "\t" + str(r[9]) + "\t" + str(
-            #             r[10]) + "\t" + str(r[11]) + "\t" + str(r[12]) + "\t" + str(r[13]) + "\t" + str(
-            #             r[14]) + "\t" + str(r[15]))
 
             self.check_collisions()
 
         # Back to the Collision Menu
-        elif val == 5:
+        elif user_input == 5:
             self.check_collisions()
 
-        elif val == 6:
+        elif user_input == 6:
             self.conn.close()
             exit()
-
-        # else:
-        #     print("The entered int value does not exist in the database.\nPlease enter again.")
-        #     self.check_collisions()
 
     def check_repairs(self):
         cursor = self.conn.cursor()
@@ -196,15 +180,15 @@ class CollisionData:
               '\n5. Back to the Menu'
               '\n6. Exit the application'
               '\n7. any other number to explore other datasets')
-        selection = input()
+        user_input = input()
         try:
-            val = int(selection)
+            user_input = int(user_input)
         except ValueError:
             print("\nThe value entered is not an int! Please try again.")
             self.check_repairs()
 
         # Repair Shops in a particular zip code
-        if val == 1:
+        if user_input == 1:
             print("Please enter the zip code ")
             zip_repair = input()
             # checks if value is a string
@@ -232,12 +216,11 @@ class CollisionData:
                                              "Facility Name Overflow",
                                              "Facility Street",
                                              "Business Type"], tablefmt="fancy_grid", floatfmt="10.0f"))
-            # for r in records:
-            #     print(str(r[0]) + "\t" + str(r[1]) + "\t" + str(r[2]) + "\t" + str(r[3]) + "\t" + str(r[4]))
+
             self.check_repairs()
 
         # Know the owner of a repair shop? Search by Owner name.
-        elif val == 2:
+        elif user_input == 2:
             print("Please enter the Owner name")
             name = input()
             try:
@@ -266,13 +249,11 @@ class CollisionData:
                                              "Owner Name",
                                              "Owner Name Overflow",
                                              "Business Type"], tablefmt="fancy_grid", floatfmt="10.0f"))
-            # for r in records:
-            #     print(str(r[0]) + "\t" + str(r[1]) + "\t" + str(r[2]) + "\t" + str(r[3]) + "\t" + str(r[4]))
-            #     # print("\n")
+
             self.check_repairs()
 
         # Got a Facility ID?
-        elif val == 3:
+        elif user_input == 3:
             print("Please enter the Facility ID")
             facility_id = input()
             try:
@@ -298,13 +279,11 @@ class CollisionData:
                                              "Facility Street",
                                              "Zipcode",
                                              "Business Type"], tablefmt="fancy_grid", floatfmt="10.0f"))
-            # for r in records:
-            #     print(str(r[0]) + " " + str(r[1]) + " " + str(r[2]) + " " + str(r[3]))
-            # # print("\n")
+
             self.check_repairs()
 
         # Wanna have it all?!
-        elif val == 4:
+        elif user_input == 4:
             print("Hold tight...")
             print("sit back and relax while we populate the data for you!")
             print("Wait for it...")
@@ -331,18 +310,13 @@ class CollisionData:
                                              "Expiration DATE",
                                              "Zipcode",
                                              "Business Type"], tablefmt="fancy_grid", floatfmt="10.0f"))
-            # for r in records:
-            #     print(
-            #         str(r[0]) + "\t" + str(r[1]) + "\t" + str(r[2]) + "\t" + str(r[3]) + "\t" + str(r[4]) + "\t" + str(
-            #             r[5]) + "\t" + str(r[6]) + "\t" + str(r[7]) + "\t" + str(r[8]) + "\t" + str(r[9]) + "\t" + str(
-            #             r[11]))
 
             self.check_repairs()
 
-        elif val == 5:
+        elif user_input == 5:
             self.check_repairs()
 
-        elif val == 6:
+        elif user_input == 6:
             self.conn.close()
             exit()
 
@@ -356,13 +330,13 @@ class CollisionData:
               '\n5. Exit the application'
               '\n6. Any other number to Explore other datasets')
 
-        selection = input()
+        user_input = input()
 
         try:
-            user_input = int(selection)
+            user_input = int(user_input)
         except ValueError:
             print('\nThe value entered is not an int! Please try again.')
-            self.check_collisions()
+            self.hospital_query()
 
         # Search Hospitals by name
         if user_input == 1:
@@ -392,12 +366,10 @@ class CollisionData:
 
             else:
                 print('The following hospitals matched your input: ')
-            # print (tabulate(records, headers=["Liquor Shop Name", "Liquor Shop Address", "Collision BOROUGH"]))
-            for rows in records:
-                print('\n\n-----------HERE ARE THE DETAILS ABOUT ' + str(rows[0]) + '----------- '
-                                                                                    '\n Address: ' + str(rows[1]) +
-                      '\n Telephone: ' + str(rows[2]) +
-                      '\n Website: ' + str(rows[3]))
+            print(tabulate(records, headers=["Hospital Name", "Hospital Address",
+                                             "Hospital Telephone", "Hospital Website"],
+                           tablefmt="fancy_grid", floatfmt="10.0f"))
+
             self.hospital_query()
 
         # Search Hospitals by State/County/City/ZIP
@@ -416,7 +388,8 @@ class CollisionData:
                 if int(location_input) == 1:
                     print('Please enter 2 Letter State Code: ')
                     state = input()
-                    if state.isdigit() | state.isalnum():
+                    store_hospitals = []
+                    if state.isdigit():
                         print('\nYou did not select a valid input. '
                               '\nRedirecting back to the Hospital menu ')
                         self.hospital_query()
@@ -431,16 +404,25 @@ class CollisionData:
                                     'LIMIT 100'
                             cursor.execute(query, {'zip': zip_search})
                             records = cursor.fetchall()
+                            for rows in records:
+                                store_hospitals.append(rows)
 
-                            print(tabulate(records, headers=["Hospital Name", "Hospital Address", "Hospital Telephone",
-                                                             "Hospital Website", "Hospital ZipCode"]))
+                        if len(store_hospitals) > 0:
+                            print(tabulate(store_hospitals, headers=["Hospital Name", "Hospital Address",
+                                                                     "Hospital Telephone",
+                                                                     "Hospital Website", "Hospital ZipCode"],
+                                           tablefmt="fancy_grid", floatfmt="10.0f"))
+                        else:
+                            print("No matching result! Try again..")
+
                     self.hospital_query()
 
                 # City
                 elif int(location_input) == 2:
                     print('Please enter City: ')
                     city = input()
-                    if city.isdigit() | city.isalnum():
+                    store_hospitals = []
+                    if city.isdigit():
                         print('\nYou did not select a valid input. '
                               '\nRedirecting back to the Hospital menu ')
                         self.hospital_query()
@@ -453,15 +435,24 @@ class CollisionData:
                                     'WHERE zipcode = %(zip)s'
                             cursor.execute(query, {'zip': zip_search})
                             records = cursor.fetchall()
+                            for rows in records:
+                                store_hospitals.append(rows)
 
-                            print(tabulate(records, headers=["Hospital Name", "Hospital Address", "Hospital Telephone",
-                                                             "Hospital Website", "Hospital ZipCode"]))
+                        if len(store_hospitals) > 0:
+                            print(tabulate(store_hospitals,
+                                           headers=["Hospital Name", "Hospital Address", "Hospital Telephone",
+                                                    "Hospital Website", "Hospital ZipCode"],
+                                           tablefmt="fancy_grid", floatfmt="10.0f"))
+                        else:
+                            print("No matching result! Try again..")
+
                     self.hospital_query()
 
                 # County
                 elif int(location_input) == 3:
                     print('Please enter County: ')
                     county = input()
+                    store_hospitals = []
                     if county.isdigit():
                         print('\nYou did not select a valid input. '
                               '\nRedirecting back to the Hospital menu ')
@@ -475,9 +466,17 @@ class CollisionData:
                                     'WHERE zipcode = %(zip)s'
                             cursor.execute(query, {'zip': zip_search})
                             records = cursor.fetchall()
+                            for rows in records:
+                                store_hospitals.append(rows)
 
-                            print(tabulate(records, headers=["Hospital Name", "Hospital Address", "Hospital Telephone",
-                                                             "Hospital Website", "Hospital ZipCode"]))
+                        if len(store_hospitals) > 0:
+                            print(tabulate(store_hospitals,
+                                           headers=["Hospital Name", "Hospital Address", "Hospital Telephone",
+                                                    "Hospital Website", "Hospital ZipCode"],
+                                           tablefmt="fancy_grid", floatfmt="10.0f"))
+                        else:
+                            print("No matching result! Try again..")
+
                     self.hospital_query()
 
                 # ZIP
@@ -498,7 +497,8 @@ class CollisionData:
                             print('The following are hospital(s) are in the ZIPCODE you entered: ')
 
                         print(tabulate(records, headers=["Hospital Name", "Hospital Address", "Hospital Telephone",
-                                                         "Hospital Website", "Hospital ZipCode"]))
+                                                         "Hospital Website", "Hospital ZipCode"],
+                                       tablefmt="fancy_grid", floatfmt="10.0f"))
 
                     else:
                         print('\nYou did not select a valid input. '
@@ -562,7 +562,7 @@ class CollisionData:
                     cursor.execute(query, {'ID': to_search})
                     hospitals = cursor.fetchall()
                     print(tabulate(hospitals, headers=["Hospital Name", "Hospital Address", "Hospital Telephone",
-                                                       "Hospital Website"]))
+                                                       "Hospital Website"], tablefmt="fancy_grid", floatfmt="10.0f"))
 
                 self.hospital_query()
 
@@ -605,7 +605,8 @@ class CollisionData:
                     hospitals = cursor.fetchall()
 
                     print(tabulate(hospitals, headers=["Hospital Name", "Hospital Address", "Hospital Telephone",
-                                                       "Hospital Website", "Naics Type Description"]))
+                                                       "Hospital Website", "Naics Type Description"],
+                                   tablefmt="fancy_grid", floatfmt="10.0f"))
 
                 self.hospital_query()
 
@@ -629,10 +630,10 @@ class CollisionData:
               '\n4. Exit the application'
               '\n5. Any number to Explore other datasets')
 
-        selection = input()
+        user_input = input()
 
         try:
-            user_input = int(selection)
+            user_input = int(user_input)
         except ValueError:
             print('\nThe value entered is not an integer! Please try again.')
             self.liquor_query()
@@ -685,6 +686,7 @@ class CollisionData:
                 if int(location_input) == 1:
                     print('Please enter 2 Letter State Code: ')
                     state = input()
+                    store_liquor = []
                     if state.isdigit():
                         print('\nYou did not select a valid input. '
                               '\nRedirecting back to the Liquor menu ')
@@ -702,17 +704,23 @@ class CollisionData:
                                     'WHERE zipcode = %(zip)s'
                             cursor.execute(query, {'zip': zip_search})
                             records = cursor.fetchall()
+                            for rows in records:
+                                store_liquor.append(rows)
 
-                            print(tabulate(records, headers=["Liquor Shop Name", "Liquor Address", "Zip Code",
-                                                             "Certificate number",
-                                                             "Method of Operation",
-                                                             "Days and Hours of Operation"]))
+                        if len(store_liquor) > 0:
+                            print(tabulate(store_liquor, headers=["Liquor Shop Name", "Liquor Address", "Zip Code",
+                                                                  "Certificate number", "Method of Operation",
+                                                                  "Days and Hours of Operation"],
+                                           tablefmt="fancy_grid", floatfmt="10.0f"))
+                        else:
+                            print("No matching data found! Try Again...")
                     self.liquor_query()
 
                 # City
                 elif int(location_input) == 2:
                     print('Please enter City: ')
                     city = input()
+                    store_liquor = []
                     if city.isdigit():
                         print('\nYou did not select a valid input. '
                               '\nRedirecting back to the Liquor menu ')
@@ -728,17 +736,23 @@ class CollisionData:
                                     'WHERE zipcode = %(zip)s'
                             cursor.execute(query, {'zip': zip_search})
                             records = cursor.fetchall()
+                            for rows in records:
+                                store_liquor.append(rows)
 
-                            print(tabulate(records, headers=["Liquor Shop Name", "Liquor Address", "Zip Code",
-                                                             "Certificate number",
-                                                             "Method of Operation",
-                                                             "Days and Hours of Operation"]))
+                        if len(store_liquor) > 0:
+                            print(tabulate(store_liquor, headers=["Liquor Shop Name", "Liquor Address", "Zip Code",
+                                                                  "Certificate number", "Method of Operation",
+                                                                  "Days and Hours of Operation"],
+                                           tablefmt="fancy_grid", floatfmt="10.0f"))
+                        else:
+                            print("No matching data found! Try Again...")
                     self.liquor_query()
 
                 # County
                 elif int(location_input) == 3:
                     print('Please enter County: ')
                     county = input()
+                    store_liquor = []
                     if county.isdigit():
                         print('\nYou did not select a valid input. '
                               '\nRedirecting back to the Liquor menu ')
@@ -754,11 +768,16 @@ class CollisionData:
                                     'WHERE zipcode = %(zip)s'
                             cursor.execute(query, {'zip': zip_search})
                             records = cursor.fetchall()
+                            for rows in records:
+                                store_liquor.append(rows)
 
-                            print(tabulate(records, headers=["Liquor Shop Name", "Liquor Address", "Zip Code",
-                                                             "Certificate number",
-                                                             "Method of Operation",
-                                                             "Days and Hours of Operation"]))
+                        if len(store_liquor) > 0:
+                            print(tabulate(store_liquor, headers=["Liquor Shop Name", "Liquor Address", "Zip Code",
+                                                                  "Certificate number", "Method of Operation",
+                                                                  "Days and Hours of Operation"],
+                                           tablefmt="fancy_grid", floatfmt="10.0f"))
+                        else:
+                            print("No matching data found! Try Again...")
                     self.liquor_query()
 
                 # ZIP
@@ -785,7 +804,8 @@ class CollisionData:
                         print(tabulate(records, headers=["Liquor Shop Name", "Liquor Address", "Zip Code",
                                                          "Certificate number",
                                                          "Method of Operation",
-                                                         "Days and Hours of Operation"]))
+                                                         "Days and Hours of Operation"],
+                                       tablefmt="fancy_grid", floatfmt="10.0f"))
 
                     else:
                         print('\nYou did not select a valid input. '
@@ -830,7 +850,8 @@ class CollisionData:
 
             print(tabulate(records, headers=["Liquor Shop Name", "Liquor Address",
                                              "Doing Business As",
-                                             "Days and Hours of Operation"]))
+                                             "Days and Hours of Operation"],
+                           tablefmt="fancy_grid", floatfmt="10.0f"))
 
             self.liquor_query()
 
@@ -849,9 +870,9 @@ class CollisionData:
               '\n5. To exit the Application'
               '\n6. Any number to Explore other datasets')
 
-        selection = input()
+        user_input = input()
         try:
-            user_input = int(selection)
+            user_input = int(user_input)
         except ValueError:
             print('\nThe value entered is not an integer! Please try again.')
             self.search_all()
@@ -879,7 +900,8 @@ class CollisionData:
                 else:
                     print('The following are results for the ZIPCODE you entered: ')
 
-                print(tabulate(records, headers=["Liquor Shop Name", "Liquor Shop Address", "Collision BOROUGH"]))
+                print(tabulate(records, headers=["Liquor Shop Name", "Liquor Shop Address", "Collision BOROUGH"],
+                               tablefmt="fancy_grid", floatfmt="10.0f"))
 
             else:
                 print('\nYou did not select a valid input. '
@@ -917,7 +939,8 @@ class CollisionData:
                         self.search_all()
                     else:
                         print('The following are results for the STATE you entered: ')
-                    print(tabulate(records, headers=["Liquor Shop Name", "Liquor Shop Address", "Collision BOROUGH"]))
+                    print(tabulate(records, headers=["Liquor Shop Name", "Liquor Shop Address", "Collision BOROUGH"],
+                                   tablefmt="fancy_grid", floatfmt="10.0f"))
             self.search_all()
 
         # Search by County
@@ -947,7 +970,8 @@ class CollisionData:
                         self.search_all()
                     else:
                         print('The following are results for the COUNTY you entered: ')
-                    print(tabulate(records, headers=["Liquor Shop Name", "Liquor Shop Address", "Collision BOROUGH"]))
+                    print(tabulate(records, headers=["Liquor Shop Name", "Liquor Shop Address", "Collision BOROUGH"],
+                                   tablefmt="fancy_grid", floatfmt="10.0f"))
             self.search_all()
 
         # Search by City
@@ -977,7 +1001,8 @@ class CollisionData:
                         self.search_all()
                     else:
                         print('The following are results for the CITY you entered: ')
-                    print(tabulate(records, headers=["Liquor Shop Name", "Liquor Shop Address", "Collision BOROUGH"]))
+                    print(tabulate(records, headers=["Liquor Shop Name", "Liquor Shop Address", "Collision BOROUGH"],
+                                   tablefmt="fancy_grid", floatfmt="10.0f"))
             self.search_all()
 
         # Exit the Application
