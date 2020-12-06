@@ -2,29 +2,6 @@ import psycopg2
 import pandas as pd
 from dicttoxml import dicttoxml
 
-# conn2 = psycopg2.connect(host='localhost', user='postgres')
-# conn2.autocommit = True
-# cur2 = conn2.cursor()
-#
-# cur2.execute("DROP DATABASE IF EXISTS collision_insight")
-# cur2.execute("CREATE DATABASE collision_insight")
-# sql = '''
-# DROP USER IF EXISTS collision_insight;
-# CREATE USER collision_insight WITH PASSWORD 'collision_insight';
-#
-# GRANT ALL PRIVILEGES ON SCHEMA collision_insight TO collision_insight;
-# GRANT ALL PRIVILEGES ON DATABASE collision_insight TO collision_insight;
-#
-# ALTER USER collision_insight SET search_path = collision_insight;
-# '''
-# cur2.execute(sql)
-# # with conn2.cursor() as cursor:
-# #     with open('database-setup.sql', 'r') as setup:
-# #         setup_queries = setup.read()
-# #         cursor.execute(setup_queries)
-# conn2.commit()
-# conn2.close()
-
 conn = psycopg2.connect("dbname=collision_insight host=localhost user=collision_insight password=collision_insight")
 cur = conn.cursor()
 
