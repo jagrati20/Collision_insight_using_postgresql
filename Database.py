@@ -45,8 +45,9 @@ class CollisionData:
                 print("\nThe value entered is not a correct vehicle type! Please try again.")
                 self.check_collisions()
 
-            cursor.execute("SELECT collision_id, crash_date, crash_time, vehicle_type_code FROM "
-                           "collision_insight.vehicle_collision WHERE vehicle_type_code iLIKE '%{}%'".
+            cursor.execute("SELECT collision_id, crash_date, crash_time, street_address, person_injured, "
+                           "person_killed, zipcode, vehicle_type_code, contributing_factors FROM "
+                           "collision_insight.vehicle_collision WHERE vehicle_type_code iLIKE '%{}%' LIMIT 100".
                            format(str(vehicle.lower()), ))
             records = cursor.fetchall()
 
@@ -55,8 +56,17 @@ class CollisionData:
                 self.check_collisions()
 
             print("Your search returned " + str(len(records)) + " records.\n")
-            for r in records:
-                print(str(r[0]) + "\t" + str(r[1]) + "\t" + str(r[2]) + "\t" + str(r[3]))
+            print(tabulate(records, headers=["Collision ID",
+                                             "Crash Date",
+                                             "Crash Time",
+                                             "Street Address",
+                                             "Person Injured",
+                                             "Person Killed",
+                                             "Zipcode",
+                                             "Colliding Vehicles",
+                                             "Contributing Factors"], tablefmt="fancy_grid", floatfmt="10.0f"))
+            # for r in records:
+            #     print(str(r[0]) + "\t" + str(r[1]) + "\t" + str(r[2]) + "\t" + str(r[3]))
             self.check_collisions()
 
         # Collisions due to a factor
@@ -69,7 +79,8 @@ class CollisionData:
             except ValueError:
                 print("\nThe value entered is not a valid cause for collision! Please try again.")
                 self.check_collisions()
-            cursor.execute("SELECT collision_id, crash_date, crash_time, contributing_factors FROM "
+            cursor.execute("SELECT collision_id, crash_date, crash_time, street_address, person_injured, "
+                           "person_killed, zipcode, contributing_factors, vehicle_type_code FROM "
                            "collision_insight.vehicle_collision WHERE contributing_factors iLIKE '%{}%'".
                            format(str(factor.lower()), ))
 
@@ -80,8 +91,17 @@ class CollisionData:
                 self.check_collisions()
 
             print("Your search returned " + str(len(records)) + " records.\n")
-            for r in records:
-                print(str(r[0]) + "\t" + str(r[1]) + "\t" + str(r[2]) + "\t" + str(r[3]))
+            print(tabulate(records, headers=["Collision ID",
+                                             "Crash Date",
+                                             "Crash Time",
+                                             "Street Address",
+                                             "Person Injured",
+                                             "Person Killed",
+                                             "Zipcode",
+                                             "Contributing Factors",
+                                             "Colliding Vehicles"], tablefmt="fancy_grid", floatfmt="10.0f"))
+            # for r in records:
+            #     print(str(r[0]) + "\t" + str(r[1]) + "\t" + str(r[2]) + "\t" + str(r[3]))
 
             self.check_collisions()
 
@@ -95,7 +115,8 @@ class CollisionData:
             except ValueError:
                 print("\nThe entered ID is not valid! Please try again.")
                 self.check_collisions()
-            cursor.execute("SELECT collision_id, crash_date, crash_time, vehicle_type_code FROM "
+            cursor.execute("SELECT collision_id, crash_date, crash_time, street_address, person_injured, "
+                           "person_killed, zipcode, contributing_factors, vehicle_type_code FROM "
                            "collision_insight.vehicle_collision WHERE collision_id = '{}'".
                            format(str(collision_id.lower()), ))
             records = cursor.fetchall()
@@ -105,10 +126,17 @@ class CollisionData:
                 self.check_collisions()
 
             print("Your search returned " + str(len(records)) + " records.\n")
-            print("Collision ID" + " " + "Crash Date" + " " + "Crash Time" + " " + "Colliding Vehicles")
-            # r->row
-            for r in records:
-                print(str(r[0]) + "\t" + str(r[1]) + "\t" + str(r[2]) + "\t" + str(r[3]))
+            print(tabulate(records, headers=["Collision ID",
+                                             "Crash Date",
+                                             "Crash Time",
+                                             "Street Address",
+                                             "Person Injured",
+                                             "Person Killed",
+                                             "Zipcode",
+                                             "Contributing Factors",
+                                             "Colliding Vehicles"], tablefmt="fancy_grid", floatfmt="10.0f"))
+            # for r in records:
+            #     print(str(r[0]) + "\t" + str(r[1]) + "\t" + str(r[2]) + "\t" + str(r[3]))
             self.check_collisions()
 
         # Wanna have it all?!'
@@ -121,13 +149,28 @@ class CollisionData:
                 print("A large amount of data requested. Showing the first 500 valid records.\n")
             else:
                 print("Your search returned " + str(len(records)) + " records.\n")
-            # r->row
-            for r in records:
-                print(
-                    str(r[0]) + "\t" + str(r[1]) + "\t" + str(r[2]) + "\t" + str(r[3]) + "\t" + str(r[4]) + "\t" + str(
-                        r[5]) + "\t" + str(r[6]) + "\t" + str(r[7]) + "\t" + str(r[8]) + "\t" + str(r[9]) + "\t" + str(
-                        r[10]) + "\t" + str(r[11]) + "\t" + str(r[12]) + "\t" + str(r[13]) + "\t" + str(
-                        r[14]) + "\t" + str(r[15]))
+            print(tabulate(records, headers=["Collision ID",
+                                             "Crash Date",
+                                             "Crash Time",
+                                             "Borough",
+                                             "Street Address",
+                                             "Person Injured",
+                                             "Person Killed",
+                                             "Pedestrians Injured",
+                                             "Pedestrians Killed",
+                                             "Cyclist Injured",
+                                             "Cyclist Killed",
+                                             "Motorist Injured",
+                                             "Motorist Killed",
+                                             "Zipcode",
+                                             "Contributing Factors",
+                                             "Colliding Vehicles"], tablefmt="fancy_grid", floatfmt="10.0f"))
+            # for r in records:
+            #     print(
+            #         str(r[0]) + "\t" + str(r[1]) + "\t" + str(r[2]) + "\t" + str(r[3]) + "\t" + str(r[4]) + "\t" + str(
+            #             r[5]) + "\t" + str(r[6]) + "\t" + str(r[7]) + "\t" + str(r[8]) + "\t" + str(r[9]) + "\t" + str(
+            #             r[10]) + "\t" + str(r[11]) + "\t" + str(r[12]) + "\t" + str(r[13]) + "\t" + str(
+            #             r[14]) + "\t" + str(r[15]))
 
             self.check_collisions()
 
@@ -184,8 +227,13 @@ class CollisionData:
                 self.check_repairs()
 
             print("Your search returned " + str(len(records)) + " records.\n")
-            for r in records:
-                print(str(r[0]) + "\t" + str(r[1]) + "\t" + str(r[2]) + "\t" + str(r[3]) + "\t" + str(r[4]))
+            print(tabulate(records, headers=["Zipcode",
+                                             "Facility Name",
+                                             "Facility Name Overflow",
+                                             "Facility Street",
+                                             "Business Type"], tablefmt="fancy_grid", floatfmt="10.0f"))
+            # for r in records:
+            #     print(str(r[0]) + "\t" + str(r[1]) + "\t" + str(r[2]) + "\t" + str(r[3]) + "\t" + str(r[4]))
             self.check_repairs()
 
         # Know the owner of a repair shop? Search by Owner name.
@@ -198,11 +246,11 @@ class CollisionData:
             except ValueError:
                 print("\nYou must be remembering it wrong! Please try again.")
                 self.check_repairs()
-            cursor.execute("SELECT vr.zipcode, vr.facility_name, vr.facility_street, "
-                           "vr.owner_name, vr.owner_name_overflow FROM collision_insight.vehicle_repair_info vr, "
-                           "collision_insight.vehicle_repair_business_type vb WHERE vr.owner_name iLIKE '%{}%' OR "
-                           "vr.owner_name_overflow iLIKE '%{}%' LIMIT 10".format(str(name.lower()),
-                                                                                 str(name.lower()), ))
+            cursor.execute("SELECT vr.zipcode, vr.facility_name, vr.facility_name_overflow, vr.facility_street, "
+                           "vr.owner_name, vr.owner_name_overflow, vb.business_type FROM "
+                           "collision_insight.vehicle_repair_info vr, collision_insight.vehicle_repair_business_type "
+                           "vb WHERE vr.owner_name iLIKE '%{}%' OR vr.owner_name_overflow iLIKE '%{}%' LIMIT 10".format(
+                str(name.lower()), str(name.lower()), ))
 
             records = cursor.fetchall()
 
@@ -211,9 +259,16 @@ class CollisionData:
                 self.check_repairs()
 
             print("Your search returned " + str(len(records)) + " records.\n")
-            for r in records:
-                print(str(r[0]) + "\t" + str(r[1]) + "\t" + str(r[2]) + "\t" + str(r[3]) + "\t" + str(r[4]))
-                # print("\n")
+            print(tabulate(records, headers=["Zipcode",
+                                             "Facility Name",
+                                             "Facility Name Overflow",
+                                             "Facility Street",
+                                             "Owner Name",
+                                             "Owner Name Overflow",
+                                             "Business Type"], tablefmt="fancy_grid", floatfmt="10.0f"))
+            # for r in records:
+            #     print(str(r[0]) + "\t" + str(r[1]) + "\t" + str(r[2]) + "\t" + str(r[3]) + "\t" + str(r[4]))
+            #     # print("\n")
             self.check_repairs()
 
         # Got a Facility ID?
@@ -226,8 +281,8 @@ class CollisionData:
             except ValueError:
                 print("\nThe value entered is not a valid Facility ID! Please try again.")
                 self.check_repairs()
-            cursor.execute("SELECT vr.facility_id, vr.facility_name, vr.facility_street, "
-                           "vb.business_type FROM collision_insight.vehicle_repair_info vr, "
+            cursor.execute("SELECT vr.facility_id, vr.facility_name, vr.facility_name_overflow, vr.facility_street, "
+                           "vr.zipcode, vb.business_type FROM collision_insight.vehicle_repair_info vr, "
                            "collision_insight.vehicle_repair_business_type vb WHERE vr.facility_id = vb.facility_id "
                            "AND vr.facility_id = CAST('{}' AS INTEGER)".format(facility_id, ))
             records = cursor.fetchall()
@@ -237,10 +292,15 @@ class CollisionData:
                 self.check_repairs()
 
             print("Your search returned " + str(len(records)) + " records.\n")
-            print("Facility ID" + " " + "Facility Name" + " " + "Street Address" + " " + "Business Type")
-            for r in records:
-                print(str(r[0]) + " " + str(r[1]) + " " + str(r[2]) + " " + str(r[3]))
-            # print("\n")
+            print(tabulate(records, headers=["Facility ID",
+                                             "Facility Name",
+                                             "Facility Name Overflow",
+                                             "Facility Street",
+                                             "Zipcode",
+                                             "Business Type"], tablefmt="fancy_grid", floatfmt="10.0f"))
+            # for r in records:
+            #     print(str(r[0]) + " " + str(r[1]) + " " + str(r[2]) + " " + str(r[3]))
+            # # print("\n")
             self.check_repairs()
 
         # Wanna have it all?!
@@ -248,19 +308,34 @@ class CollisionData:
             print("Hold tight...")
             print("sit back and relax while we populate the data for you!")
             print("Wait for it...")
-            cursor.execute("SELECT * FROM collision_insight.vehicle_repair_info vr, "
-                           "collision_insight.vehicle_repair_business_type vb WHERE vr.facility_id = vb.facility_id "
+            cursor.execute("SELECT vr.facility_id, vr.facility_name, vr.facility_name_overflow, vr.facility_street, "
+                           "vr.owner_name, vr.owner_name_overflow, vr.original_issuance, vr.last_renewal, "
+                           "vr.expiration, vr.zipcode, vb.business_type FROM "
+                           "collision_insight.vehicle_repair_info vr INNER JOIN "
+                           "collision_insight.vehicle_repair_business_type vb ON vr.facility_id = vb.facility_id "
                            "LIMIT 500")
             records = cursor.fetchall()
             if len(records) == 500:
                 print("A large amount of data requested. Showing the first 500 valid records.\n")
             else:
                 print("Your search returned " + str(len(records)) + " records.\n")
-            for r in records:
-                print(
-                    str(r[0]) + "\t" + str(r[1]) + "\t" + str(r[2]) + "\t" + str(r[3]) + "\t" + str(r[4]) + "\t" + str(
-                        r[5]) + "\t" + str(r[6]) + "\t" + str(r[7]) + "\t" + str(r[8]) + "\t" + str(r[9]) + "\t" + str(
-                        r[11]))
+
+            print(tabulate(records, headers=["Facility ID",
+                                             "Facility Name",
+                                             "Facility Name Overflow",
+                                             "Facility Street",
+                                             "Owner Name",
+                                             "Owner Name Overflow",
+                                             "Original Issuance DATE",
+                                             "Last Renewal DATE",
+                                             "Expiration DATE",
+                                             "Zipcode",
+                                             "Business Type"], tablefmt="fancy_grid", floatfmt="10.0f"))
+            # for r in records:
+            #     print(
+            #         str(r[0]) + "\t" + str(r[1]) + "\t" + str(r[2]) + "\t" + str(r[3]) + "\t" + str(r[4]) + "\t" + str(
+            #             r[5]) + "\t" + str(r[6]) + "\t" + str(r[7]) + "\t" + str(r[8]) + "\t" + str(r[9]) + "\t" + str(
+            #             r[11]))
 
             self.check_repairs()
 
