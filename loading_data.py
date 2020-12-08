@@ -57,6 +57,8 @@ collision_xml_data = dicttoxml(data_dict).decode()
 with open("datasets/locations.xml", "w+") as f:
     f.write(collision_xml_data)
 
+print('Data Loading Completed')
+
 conn.commit()
 
 cur.close()

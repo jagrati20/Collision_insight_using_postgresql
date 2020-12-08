@@ -55,6 +55,9 @@ class CollisionData:
                 print('Try with different value')
                 self.check_collisions()
 
+            if len(records) > 100:
+                print('Showing first 100 rows...')
+
             print("Your search returned " + str(len(records)) + " records.\n")
             print(tabulate(records, headers=["Collision ID",
                                              "Crash Date",
