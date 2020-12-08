@@ -30,6 +30,11 @@ The directory contains the following files:
 
 `database-setup.sql` : This file contains the database set up code for the user and grants appropriate permissions to the user
 
+## Requirements
+
+1. Python 3.8
+2. PostgreSQL 12.4
+
 ## Setup
 
 1. Run the `requirements.txt` file from the terminal as
