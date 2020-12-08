@@ -545,6 +545,7 @@ class CollisionData:
                 9: "CHRONIC DISEASE"
             }
             hospital_type = input()
+            hospital_data = []
             if hospital_type.isdigit() and 1 <= int(hospital_type) <= 9:
                 hospital_type = dictionary.get(int(hospital_type))
                 query = 'SELECT id from collision_insight.hospital_type ' \
@@ -561,8 +562,14 @@ class CollisionData:
                             'WHERE id = %(ID)s'
                     cursor.execute(query, {'ID': to_search})
                     hospitals = cursor.fetchall()
-                    print(tabulate(hospitals, headers=["Hospital Name", "Hospital Address", "Hospital Telephone",
+                    for hospital in hospitals:
+                        hospital_data.append(hospital)
+
+                if(len(hospital_data)>0):
+                    print(tabulate(hospital_data, headers=["Hospital Name", "Hospital Address", "Hospital Telephone",
                                                        "Hospital Website"], tablefmt="fancy_grid", floatfmt="10.0f"))
+                else:
+                    print("No matching data found! Try Again...")
 
                 self.hospital_query()
 
@@ -584,6 +591,7 @@ class CollisionData:
                 3: "622310",
             }
             hospital_naics_code = input()
+            naics_code_rows = []
             if hospital_naics_code.isdigit() and 1 <= int(hospital_naics_code) <= 3:
                 hospital_naics_code = dictionary.get(int(hospital_naics_code))
                 query = 'SELECT id from collision_insight.hospital_naics ' \
@@ -599,14 +607,19 @@ class CollisionData:
                             'FROM collision_insight.hospital_details as details, ' \
                             'collision_insight.hospital_naics as naics ' \
                             'WHERE details.id = %(ID)s ' \
-                            'AND details.id = naics.id' \
+                            'AND details.id = naics.id ' \
                             'LIMIT 100'
                     cursor.execute(query, {'ID': to_search})
                     hospitals = cursor.fetchall()
+                    for hospital in hospitals:
+                        naics_code_rows.append(hospital)
 
-                    print(tabulate(hospitals, headers=["Hospital Name", "Hospital Address", "Hospital Telephone",
+                if len(naics_code_rows) > 0:
+                    print(tabulate(naics_code_rows, headers=["Hospital Name", "Hospital Address", "Hospital Telephone",
                                                        "Hospital Website", "Naics Type Description"],
-                                   tablefmt="fancy_grid", floatfmt="10.0f"))
+                                    tablefmt="fancy_grid", floatfmt="10.0f"))
+                else:
+                    print("No matching data found! Try Again...")
 
                 self.hospital_query()
 
