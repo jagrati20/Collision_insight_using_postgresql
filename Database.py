@@ -11,7 +11,7 @@ class CollisionData:
 
     conn = psycopg2.connect(connection_string, cursor_factory=psycopg2.extras.DictCursor)
 
-    xml_file = 'locations.xml'
+    xml_file = 'datasets/locations.xml'
     parser = etree.XMLParser(ns_clean=True)
     tree = etree.parse(xml_file, parser)
 

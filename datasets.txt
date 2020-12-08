@@ -1,0 +1,10 @@
+https://raw.githubusercontent.com/jagrati20/Database_Project_Datasets/main/hospital_details.csv
+https://raw.githubusercontent.com/jagrati20/Database_Project_Datasets/main/hospital_types.csv
+https://raw.githubusercontent.com/jagrati20/Database_Project_Datasets/main/hospital_owners.csv
+https://raw.githubusercontent.com/jagrati20/Database_Project_Datasets/main/hospital_naics_code.csv
+https://raw.githubusercontent.com/jagrati20/Database_Project_Datasets/main/hospital_vals.csv
+https://raw.githubusercontent.com/jagrati20/Database_Project_Datasets/main/Vehicle_Repairs.csv
+https://raw.githubusercontent.com/jagrati20/Database_Project_Datasets/main/Vehicle_Business.csv
+https://raw.githubusercontent.com/jagrati20/Database_Project_Datasets/main/vehicle_collision.csv
+https://raw.githubusercontent.com/jagrati20/Database_Project_Datasets/main/liquor_shop_info.csv
+https://raw.githubusercontent.com/jagrati20/Database_Project_Datasets/main/location_combo.csv

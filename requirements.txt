@@ -1,0 +1,6 @@
+os
+psycopg2-binary
+lxml
+tabulate
+dicttoxml
+pandas
