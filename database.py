@@ -1,6 +1,6 @@
 import psycopg2
 import psycopg2.extras
-import loading_data
+import load_data
 from lxml import etree
 from tabulate import tabulate
 
