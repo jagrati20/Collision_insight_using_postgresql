@@ -33,3 +33,10 @@ pip install -r requirements.txt
 psql -U postgres postgres < database-setup.sql   
 ```               
 3. Run the `retrieve-data.py` file to set up the datasets directory.
+
+## Running
+
+Run the `application.py` file from a terminal or an IDE to execute the collisions-insight project.
+
+
+
