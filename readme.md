@@ -1,6 +1,14 @@
 # Collisions Insight Project
 
 This project utilizes four relational datasets and one non-relational dataset. For the non-relational database, this project makes use of XML.
+The four relational datasets are -
+
+1. Vehicle Collision
+2. Vehicle Repair Shops
+3. Liquor Shops
+4. Hospital Details
+
+The non-relational dataset - Location dataset (Zipcode, County, City, State)
 
 ## What's in this application
 
