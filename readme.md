@@ -1,36 +1,35 @@
-Collisions Insight Project
-This project utilizes four relational datasets and one non-relational dataset. For non-relational database, this project makes use of XML.
+# Collisions Insight Project
 
-What's in the application
+This project utilizes four relational datasets and one non-relational dataset. For the non-relational database, this project makes use of XML.
+
+## What's in this application
+
 The directory contains the following files:
 
-requirements.txt: Run this file to install all the dependencies that are required for the project. It should be run as 
-                    pip install -r requirements.txt
+`requirements.txt` : This file is to install all the dependencies required for this project. 
                     
-datasets.txt: This file contains the URLs for all the datasets that are required for the successful execution of this 
-              project
+`datasets.txt` : This file contains all the URLs required for the datasets for the successful execution of this project
 
-retrieve_data.py: The execution of this file generates a directory named Datasets and will fetch the datasets in the .csv 
-                  format from the URLs present in the datasets.txt file 
+`retrieve_data.py` : This file will generate a directory named `datasets`, and it will fetch the datasets from the URLs present in `datasets.txt` to .CSV format.
                   
-load_data.py: This file contains the code that accomplishes data loading. All datasets from the created Datasets directory are 
-               loaded into their respective tables
+`load_data.py` : This file contains the code that accomplishes data loading. It will load all the datasets from the created Datasets directory into their respective tables.
 
-schema.sql: This Postgres SQL file contains the schema for all datasets.
+`schema.sql` : This PostgreSQL file contains the schema required for all datasets.
 
-application.py: This file is the main file that needs to be run in order to run the project application.
+`application.py` : This file is the main file that needs to be run to execute the project.
 
-database.py: This file contains the code that consists of all the queries that a user can run on the datasets.
+`database.py` : This file contains the code that sets up a connection with the Postgres database and consists of different functions to executes queries.
 
-database-setup.sql: This file contains the SQL which sets up the required database for usage.
+`database-setup.sql` : This file contains the database set up code for the user and grants appropriate permissions to the user
 
-Setup
+## Setup
 
-1) The requirements.txt file should be run first followed by the database-setup.sql file. lxml, which is a key component of
-the project, which relies on the libxml2 library needs to be installed as well if not done so already.
-
-Running pip install -r requirements.txt will run the requirements.txt file and  
-
-Running
-As with homework 5, this makes use of the python unittest module. You can run the tests by running python -m unittest 
-query_tool_test.py from the homework-6 directory.
+1. Run the `requirements.txt` file from the terminal as
+```
+pip install -r requirements.txt 
+```
+2. Run the `database-setup.sql` file as 
+```
+psql -U postgres postgres < database-setup.sql   
+```               
+3. Run the `retrieve-data.py` file to set up the datasets directory.
