@@ -11,9 +11,9 @@ class CollisionData:
 
     conn = psycopg2.connect(connection_string, cursor_factory=psycopg2.extras.DictCursor)
 
-    xml_file = 'datasets/locations.xml'
+    xml_location_file = 'datasets/locations.xml'
     parser = etree.XMLParser(ns_clean=True)
-    tree = etree.parse(xml_file, parser)
+    tree = etree.parse(xml_location_file, parser)
 
     def check_collisions(self):
         cursor = self.conn.cursor()
@@ -26,20 +26,20 @@ class CollisionData:
               '\n6. Exit the application'
               '\n7. Any other number to explore other datasets')
 
-        user_input = input()
+        user_choice_input = input()
         try:
-            user_input = int(user_input)
+            user_choice_input = int(user_choice_input)
         except ValueError:
             print("\nThe value entered is not an integer value! Please try again.")
             self.check_collisions()
 
         # Collisions corresponding to a type of vehicle
-        if user_input == 1:
+        if user_choice_input == 1:
             print("Please enter the type of the vehicle")
-            vehicle = input()
+            vehicle_type = input()
             # checks if value is a string
             try:
-                if vehicle.isnumeric() | vehicle.isalnum() & (vehicle.isalpha() != True):
+                if vehicle_type.isnumeric() | vehicle_type.isalnum() & (vehicle_type.isalpha() != True):
                     raise ValueError
             except ValueError:
                 print("\nThe value entered is not a correct vehicle type! Please try again.")
@@ -48,7 +48,7 @@ class CollisionData:
             cursor.execute("SELECT collision_id, crash_date, crash_time, street_address, person_injured, "
                            "person_killed, zipcode, vehicle_type_code, contributing_factors FROM "
                            "collision_insight.vehicle_collision WHERE vehicle_type_code iLIKE '%{}%' LIMIT 100".
-                           format(str(vehicle.lower()), ))
+                           format(str(vehicle_type.lower()), ))
             records = cursor.fetchall()
 
             if len(records) == 0:
@@ -71,7 +71,7 @@ class CollisionData:
             self.check_collisions()
 
         # Collisions due to a factor
-        elif user_input == 2:
+        elif user_choice_input == 2:
             print("Please enter the factor influencing the vehicle collision")
             factor = input()
             try:
@@ -105,7 +105,7 @@ class CollisionData:
             self.check_collisions()
 
         # Got a Collision ID?
-        elif user_input == 3:
+        elif user_choice_input == 3:
             print("Please enter the Collision ID")
             collision_id = input()
             try:
@@ -137,7 +137,7 @@ class CollisionData:
             self.check_collisions()
 
         # Wanna have it all?!'
-        elif user_input == 4:
+        elif user_choice_input == 4:
             print("Please wait while we populate the data for you!")
             cursor.execute("SELECT * FROM collision_insight.vehicle_collision LIMIT 500")
             records = cursor.fetchall()
@@ -165,10 +165,10 @@ class CollisionData:
             self.check_collisions()
 
         # Back to the Collision Menu
-        elif user_input == 5:
+        elif user_choice_input == 5:
             self.check_collisions()
 
-        elif user_input == 6:
+        elif user_choice_input == 6:
             self.conn.close()
             exit()
 
@@ -182,15 +182,15 @@ class CollisionData:
               '\n5. Back to the Menu'
               '\n6. Exit the application'
               '\n7. any other number to explore other datasets')
-        user_input = input()
+        user_choice_input = input()
         try:
-            user_input = int(user_input)
+            user_choice_input = int(user_choice_input)
         except ValueError:
             print("\nThe value entered is not an int! Please try again.")
             self.check_repairs()
 
         # Repair Shops in a particular zip code
-        if user_input == 1:
+        if user_choice_input == 1:
             print("Please enter the zip code ")
             zip_repair = input()
             # checks if value is a string
@@ -222,11 +222,11 @@ class CollisionData:
             self.check_repairs()
 
         # Know the owner of a repair shop? Search by Owner name.
-        elif user_input == 2:
+        elif user_choice_input == 2:
             print("Please enter the Owner name")
-            name = input()
+            owner_name = input()
             try:
-                if name.isnumeric():
+                if owner_name.isnumeric():
                     raise ValueError
             except ValueError:
                 print("\nYou must be remembering it wrong! Please try again.")
@@ -235,7 +235,7 @@ class CollisionData:
                            "vr.owner_name, vr.owner_name_overflow, vb.business_type FROM "
                            "collision_insight.vehicle_repair_info vr, collision_insight.vehicle_repair_business_type "
                            "vb WHERE vr.owner_name iLIKE '%{}%' OR vr.owner_name_overflow iLIKE '%{}%' LIMIT 10".format(
-                str(name.lower()), str(name.lower()), ))
+                str(owner_name.lower()), str(owner_name.lower()), ))
 
             records = cursor.fetchall()
 
@@ -255,7 +255,7 @@ class CollisionData:
             self.check_repairs()
 
         # Got a Facility ID?
-        elif user_input == 3:
+        elif user_choice_input == 3:
             print("Please enter the Facility ID")
             facility_id = input()
             try:
@@ -285,7 +285,7 @@ class CollisionData:
             self.check_repairs()
 
         # Wanna have it all?!
-        elif user_input == 4:
+        elif user_choice_input == 4:
             print("Please wait while we populate the data for you!")
             cursor.execute("SELECT vr.facility_id, vr.facility_name, vr.facility_name_overflow, vr.facility_street, "
                            "vr.owner_name, vr.owner_name_overflow, vr.original_issuance, vr.last_renewal, "
@@ -313,10 +313,10 @@ class CollisionData:
 
             self.check_repairs()
 
-        elif user_input == 5:
+        elif user_choice_input == 5:
             self.check_repairs()
 
-        elif user_input == 6:
+        elif user_choice_input == 6:
             self.conn.close()
             exit()
 
@@ -330,16 +330,16 @@ class CollisionData:
               '\n5. Exit the application'
               '\n6. Any other number to Explore other datasets')
 
-        user_input = input()
+        user_choice_input = input()
 
         try:
-            user_input = int(user_input)
+            user_choice_input = int(user_choice_input)
         except ValueError:
             print('\nThe value entered is not an int! Please try again.')
             self.hospital_query()
 
         # Search Hospitals by name
-        if user_input == 1:
+        if user_choice_input == 1:
             print('Please enter the name of the Hospital you want to search')
             hospital_name = input()
 
@@ -373,7 +373,7 @@ class CollisionData:
             self.hospital_query()
 
         # Search Hospitals by State/County/City/ZIP
-        elif user_input == 2:
+        elif user_choice_input == 2:
             print('Please enter how you want to search for the Hospitals'
                   '\n 1. All the Hospitals in a State by State code (Example - NY for New York)'
                   '\n 2. City Name'
@@ -521,7 +521,7 @@ class CollisionData:
                 self.hospital_query()
 
         # Search Hospitals by Type
-        elif user_input == 3:
+        elif user_choice_input == 3:
             print("There are following types of hospitals available - "
                   "\n1. GENERAL ACUTE CARE"
                   "\n2. PSYCHIATRIC"
@@ -572,7 +572,7 @@ class CollisionData:
                 self.hospital_query()
 
         # Search Hospital by Naics Code
-        elif user_input == 4:
+        elif user_choice_input == 4:
             print("There are following NAICS code for the hospitals - "
                   "\n1. 622110"
                   "\n2. 622210"
@@ -616,7 +616,7 @@ class CollisionData:
                 self.hospital_query()
 
         # Exit the application
-        elif user_input == 5:
+        elif user_choice_input == 5:
             self.conn.close()
             exit()
 
@@ -630,16 +630,16 @@ class CollisionData:
               '\n4. Exit the application'
               '\n5. Any number to Explore other datasets')
 
-        user_input = input()
+        user_choice_input = input()
 
         try:
-            user_input = int(user_input)
+            user_choice_input = int(user_choice_input)
         except ValueError:
             print('\nThe value entered is not an integer! Please try again.')
             self.liquor_query()
 
         # Shop name
-        if user_input == 1:
+        if user_choice_input == 1:
             print('Please enter the name of the Liquor shop you want to search')
             liquor_shop = input()
 
@@ -670,7 +670,7 @@ class CollisionData:
             self.liquor_query()
 
         # Shop name by Location
-        elif user_input == 2:
+        elif user_choice_input == 2:
             print('Please enter how you want to search for the Liquor Shop'
                   '\n 1. State code (Example - NY for New York)'
                   '\n 2. City Name'
@@ -828,7 +828,7 @@ class CollisionData:
                 self.liquor_query()
 
         # DBA
-        elif user_input == 3:
+        elif user_choice_input == 3:
             print('Please enter the related business name')
             doing_business_as = input()
 
@@ -855,7 +855,7 @@ class CollisionData:
 
             self.liquor_query()
 
-        elif user_input == 4:
+        elif user_choice_input == 4:
             self.conn.close()
             exit()
 
@@ -872,15 +872,15 @@ class CollisionData:
               '\n6. To exit the Application'
               '\n7. Any number to Explore other datasets')
 
-        user_input = input()
+        user_choice_input = input()
         try:
-            user_input = int(user_input)
+            user_choice_input = int(user_choice_input)
         except ValueError:
             print('\nThe value entered is not an integer! Please try again.')
             self.search_all()
 
         # Search by ZIP
-        if user_input == 1:
+        if user_choice_input == 1:
             print('Please enter ZIP code: ')
             zip_code = input()
             if zip_code.isdigit() and len(zip_code) == 5:
@@ -911,7 +911,7 @@ class CollisionData:
             self.search_all()
 
         # Search by State
-        if user_input == 2:
+        if user_choice_input == 2:
             print('Please enter 2 Letter State Code: ')
 
             state = input()
@@ -946,7 +946,7 @@ class CollisionData:
             self.search_all()
 
         # Search by County
-        if user_input == 3:
+        if user_choice_input == 3:
             print('Please enter County: ')
             county = input()
             if county.isdigit():
@@ -977,7 +977,7 @@ class CollisionData:
             self.search_all()
 
         # Search by City
-        if user_input == 4:
+        if user_choice_input == 4:
             print('Please enter City: ')
             city = input()
             if city.isdigit():
@@ -1008,7 +1008,7 @@ class CollisionData:
             self.search_all()
 
         # Search for zip in liq and collision
-        if user_input == 5:
+        if user_choice_input == 5:
             query = "SELECT DISTINCT col.zipcode, " \
                     "SUM(COALESCE(col.pedistrian_killed,0) + COALESCE(col.motorist_killed,0) " \
                     "+ COALESCE(col.cyclist_killed,0)) as total " \
@@ -1030,6 +1030,6 @@ class CollisionData:
             self.search_all()
 
         # Exit the Application
-        if user_input == 6:
+        if user_choice_input == 6:
             self.conn.close()
             exit()
