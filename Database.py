@@ -135,8 +135,7 @@ class CollisionData:
 
         # Wanna have it all?!'
         elif user_input == 4:
-            print("Hold tight...")
-            print("Wait for it... sit back and relax while we populate the data for you!")
+            print("Please wait while we populate the data for you!")
             cursor.execute("SELECT * FROM collision_insight.vehicle_collision LIMIT 500")
             records = cursor.fetchall()
             if len(records) == 500:
@@ -284,9 +283,7 @@ class CollisionData:
 
         # Wanna have it all?!
         elif user_input == 4:
-            print("Hold tight...")
-            print("sit back and relax while we populate the data for you!")
-            print("Wait for it...")
+            print("Please wait while we populate the data for you!")
             cursor.execute("SELECT vr.facility_id, vr.facility_name, vr.facility_name_overflow, vr.facility_street, "
                            "vr.owner_name, vr.owner_name_overflow, vr.original_issuance, vr.last_renewal, "
                            "vr.expiration, vr.zipcode, vb.business_type FROM "
@@ -867,8 +864,10 @@ class CollisionData:
               '\n2. Search by State'
               '\n3. Search by County'
               '\n4. Search by City'
-              '\n5. To exit the Application'
-              '\n6. Any number to Explore other datasets')
+              '\n5. To Show the most dangerous zip code sorted by person killed and '
+              'in the area where there were liquor shops around but no hospitals were close! '
+              '\n6. To exit the Application'
+              '\n7. Any number to Explore other datasets')
 
         user_input = input()
         try:
@@ -1005,7 +1004,29 @@ class CollisionData:
                                    tablefmt="fancy_grid", floatfmt="10.0f"))
             self.search_all()
 
-        # Exit the Application
+        # Search for zip in liq and collision
         if user_input == 5:
+            query = "SELECT DISTINCT col.zipcode, " \
+                    "SUM(COALESCE(col.pedistrian_killed,0) + COALESCE(col.motorist_killed,0) " \
+                    "+ COALESCE(col.cyclist_killed,0)) as total " \
+                    "FROM collision_insight.liquor_shop_info AS liq, " \
+                    "collision_insight.vehicle_collision AS col " \
+                    "WHERE liq.zipcode = col.zipcode " \
+                    "AND col.person_killed > 0 " \
+                    "AND liq.zipcode NOT IN (SELECT zipcode FROM collision_insight.hospital_details) " \
+                    "GROUP BY col.zipcode " \
+                    "ORDER BY total DESC;"
+
+            cursor.execute(query)
+
+            records = cursor.fetchall()
+
+            print(tabulate(records, headers=["ZIP Code", "Total people killed"],
+                           tablefmt="fancy_grid", floatfmt="10.0f"))
+
+            self.search_all()
+
+        # Exit the Application
+        if user_input == 6:
             self.conn.close()
             exit()

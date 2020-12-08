@@ -11,8 +11,6 @@ create type hospital_val_method as enum('IMAGERY/OTHER', 'IMAGERY');
 create type hospital_owners as enum('PROPRIETARY', 'GOVERNMENT - LOCAL','GOVERNMENT - DISTRICT/AUTHORITY', 
 	'NON-PROFIT', 'GOVERNMENT - STATE', 'NOT AVAILABLE', 'GOVERNMENT - FEDERAL', 'LIMITED LIABILITY COMPANY');
 
-create type sitting_interest as enum('sidewalk', 'both', 'roadway', 'openstreets');
-
 create type business as enum('RS', 'RSB');
 
 create type status_type as enum ('CLOSED', 'OPEN');
