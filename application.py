@@ -1,4 +1,4 @@
-from Database import *
+from database import *
 
 
 def RunApplication():
