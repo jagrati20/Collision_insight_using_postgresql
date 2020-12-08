@@ -6,7 +6,7 @@ conn = psycopg2.connect("dbname=collision_insight host=localhost user=collision_
 cur = conn.cursor()
 
 with conn.cursor() as cursor:
-    with open('project_schema.sql', 'r') as project:
+    with open('schema.sql', 'r') as project:
         setup_queries = project.read()
         cursor.execute(setup_queries)
 

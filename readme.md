@@ -28,7 +28,7 @@ The directory contains the following files:
 
 `database.py` : This file contains the code that sets up a connection with the Postgres database and consists of different functions to executes queries.
 
-`database-setup.sql` : This file contains the database set up code for the user and grants appropriate permissions to the user
+`db-setup.sql` : This file contains the database set up code for the user and grants appropriate permissions to the user
 
 ## Requirements
 
@@ -39,13 +39,16 @@ The directory contains the following files:
 
 1. Run the `requirements.txt` file from the terminal as
 ```
-pip install -r requirements.txt 
+pip3 install -r requirements.txt 
 ```
-2. Run the `database-setup.sql` file as 
+2. Run the `db-setup.sql` file as 
 ```
-psql -U postgres postgres < database-setup.sql   
+psql -U postgres postgres < db-setup.sql   
 ```               
-3. Run the `retrieve-data.py` file to set up the datasets directory.
+3. Run the `retrieve_data.py` file to set up the datasets directory.
+```
+python3 retrieve_data.py
+```
 
 ## Running
 
