@@ -398,7 +398,7 @@ class CollisionData:
                         # Searching in XML using XPATH
                         all_zipcode = self.tree.xpath("/root/item[STATE/text()='" + state + "']/ZIP/text()")
                         for zip_search in all_zipcode:
-                            query = 'SELECT name, address, telephone, website, zipcode ' \
+                            query = 'SELECT DISTINCT name, address, telephone, website, zipcode ' \
                                     'FROM collision_insight.hospital_details ' \
                                     'WHERE zipcode = %(zip)s' \
                                     'LIMIT 100'
@@ -430,7 +430,7 @@ class CollisionData:
                         city = city.upper()
                         all_zipcode = self.tree.xpath("/root/item[CITY/text()='" + city + "']/ZIP/text()")
                         for zip_search in all_zipcode:
-                            query = 'SELECT name, address, telephone, website, zipcode ' \
+                            query = 'SELECT DISTINCT name, address, telephone, website, zipcode ' \
                                     'FROM collision_insight.hospital_details ' \
                                     'WHERE zipcode = %(zip)s'
                             cursor.execute(query, {'zip': zip_search})
@@ -461,7 +461,7 @@ class CollisionData:
                         county = county.upper()
                         all_zipcode = self.tree.xpath("/root/item[COUNTY/text()='" + county + "']/ZIP/text()")
                         for zip_search in all_zipcode:
-                            query = 'SELECT name, address, telephone, website, zipcode ' \
+                            query = 'SELECT DISTINCT name, address, telephone, website, zipcode ' \
                                     'FROM collision_insight.hospital_details ' \
                                     'WHERE zipcode = %(zip)s'
                             cursor.execute(query, {'zip': zip_search})
@@ -484,7 +484,7 @@ class CollisionData:
                     print('Please 5 digit ZIP: ')
                     zip_code = input()
                     if zip_code.isdigit() and len(zip_code) == 5:
-                        query = 'SELECT name, address, telephone, website ' \
+                        query = 'SELECT DISTINCT name, address, telephone, website ' \
                                 'FROM collision_insight.hospital_details ' \
                                 'WHERE zipcode = %(zip_code)s'
 
@@ -697,7 +697,7 @@ class CollisionData:
                         all_zipcode = self.tree.xpath("/root/item[STATE/text()='" + state + "']/ZIP/text()")
 
                         for zip_search in all_zipcode:
-                            query = 'SELECT premise_name, premise_address, zipcode, certificate_number, ' \
+                            query = 'SELECT DISTINCT premise_name, premise_address, zipcode, certificate_number, ' \
                                     'method_of_operation, ' \
                                     'days_hours_of_operation ' \
                                     'FROM collision_insight.liquor_shop_info ' \
@@ -729,7 +729,7 @@ class CollisionData:
                         city = city.upper()
                         all_zipcode = self.tree.xpath("/root/item[CITY/text()='" + city + "']/ZIP/text()")
                         for zip_search in all_zipcode:
-                            query = 'SELECT premise_name, premise_address, zipcode, certificate_number, ' \
+                            query = 'SELECT DISTINCT premise_name, premise_address, zipcode, certificate_number, ' \
                                     'method_of_operation, ' \
                                     'days_hours_of_operation ' \
                                     'FROM collision_insight.liquor_shop_info ' \
@@ -761,7 +761,7 @@ class CollisionData:
                         county = county.upper()
                         all_zipcode = self.tree.xpath("/root/item[COUNTY/text()='" + county + "']/ZIP/text()")
                         for zip_search in all_zipcode:
-                            query = 'SELECT premise_name, premise_address, zipcode, certificate_number, ' \
+                            query = 'SELECT DISTINCT premise_name, premise_address, zipcode, certificate_number, ' \
                                     'method_of_operation, ' \
                                     'days_hours_of_operation ' \
                                     'FROM collision_insight.liquor_shop_info ' \
@@ -885,7 +885,7 @@ class CollisionData:
             zip_code = input()
             if zip_code.isdigit() and len(zip_code) == 5:
 
-                query = 'SELECT liquor.premise_name, liquor.premise_address, ' \
+                query = 'SELECT DISTINCT liquor.premise_name, liquor.premise_address, ' \
                         'collision.BORO ' \
                         'FROM collision_insight.liquor_shop_info as liquor, ' \
                         'collision_insight.vehicle_collision as collision ' \
